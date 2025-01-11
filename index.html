@@ -32,145 +32,85 @@
 
 
 	<script>
-		mapboxgl.accessToken = 'pk.eyJ1IjoiZmFraHIiLCJhIjoiY2pseXc0djE0MHBibzN2b2h4MzVoZjk4aSJ9.ImbyLtfsfSsR_yyBluR8yQ';
-		//var instructions = document.getElementById('instructions');
 
-		var map = new mapboxgl.Map({
+
+		mapboxgl.accessToken = 'pk.eyJ1IjoiZmFraHIiLCJhIjoiY2pseXc0djE0MHBibzN2b2h4MzVoZjk4aSJ9.ImbyLtfsfSsR_yyBluR8yQ';
+
+        const map = new mapboxgl.Map({
             container: 'map', // container id
             style: 'mapbox://styles/mapbox/streets-v9', //hosted style id
-            center: [72.91830174620189, 19.082718000810157], // starting position
+            center: [0, 0], // starting position
             zoom: 15, // starting zoom
             minZoom: 11 // keep it local
         });
 
-    const el = document.createElement('div');
-    el.className = 'marker';
-    el.style.backgroundImage = `url(img/currentLocation.png)`;
-    el.style.width = `60px`;
-    el.style.height = `60px`;
-    el.style.backgroundSize = '100%';
+        if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (position) => {
+            var currentUserLocation = [position.coords.longitude, position.coords.latitude];
 
-    //make a marker for each feature and add to the map
-    new mapboxgl.Marker(el)
-    .setLngLat([72.91830174620189, 19.082718000810157])
-    .addTo(map);
+            map.flyTo({
+            center: currentUserLocation,
+            essential: true, // Ensures smooth camera transition
+            zoom: 15,
+            });            
 
+            console.log(currentUserLocation);
 
+        })};
 
-	var position = navigator.geolocation.watchPosition(updateRoute);
+        
 
+        const el = document.createElement('div');
+        el.className = 'marker';
+        el.style.backgroundImage = `url(img/currentLocation.png)`;
+        el.style.width = `60px`;
+        el.style.height = `60px`;
+        el.style.backgroundSize = '100%';
+        //make a marker for each feature and add to the map
+        const currentUserMarker = new mapboxgl.Marker(el)
+        .setLngLat([0, 0])
+        .addTo(map);
+            
+        const carterRoadMarker = new mapboxgl.Marker()
+        .setLngLat([72.8227068091439, 19.067521764462125]) // Marker in carter road
+        .addTo(map);
 
-    // use the coordinates you just drew to make your directions request
-    function updateRoute(position) {
-    	map.flyTo({center: [position.coords.longitude, position.coords.latitude],essential: true});
-    	var geojson = {
-    		type: 'FeatureCollection',
-    		features: [{
-    			type: 'Feature',
-    			geometry: {
-    				type: 'Point',
-    				coordinates: [19.082718000810157, 72.91830174620189]
-    			}
-    		}]
-    	};
+        const mountMaryMarker = new mapboxgl.Marker()
+        .setLngLat([72.82241889786202, 19.046617401768984]) // Marker in Mount Mary
+        .addTo(map);
 
-          // create a HTML element for each feature
-        //   const el = document.createElement('div');
-        //     const width = marker.properties.iconSize[0];
-        //     const height = marker.properties.iconSize[1];
-        //     el.className = 'marker';
-        //     el.style.backgroundImage = `url(https://picsum.photos/id/1011/60/60)`;
-        //     el.style.width = `60px`;
-        //     el.style.height = `60px`;
-        //     el.style.backgroundSize = '100%';
+        const linkingRoadMarker = new mapboxgl.Marker()
+        .setLngLat([72.83426278234403, 19.074857618070297]) // Marker in linking road
+        .addTo(map);
 
-        //   // make a marker for each feature and add to the map
-        //   new mapboxgl.Marker(el)
-        //   .setLngLat([19.082718000810157, 72.91830174620189])
-        //   .addTo(map);
+        const waterfieldMarker = new mapboxgl.Marker()
+        .setLngLat([72.83427634002794, 19.060074213863803]) // Marker in carter road
+        .addTo(map);
 
-        removeRoute(); // overwrite any existing layers
-        var newCoords = position.coords.longitude+","+position.coords.latitude+";<?php echo $longitude.','.$latitude; ?>";
-        //getMatch(newCoords);
-    }
+        GetUserLocation();
 
-    // remove the layer if it exists
-    function removeRoute () {
-    	if (map.getSource('route')) {
-    		map.removeLayer('route');
-    		map.removeSource('route');
-    		//instructions.innerHTML = '';
-    	} else  {
-    		return;
-    	}
-    }
+        function GetUserLocation(){
+            // do whatever you like here
 
-//     // make a directions request
-//     function getMatch(e) {
-//     	var url = 'https://api.mapbox.com/directions/v5/mapbox/driving/'+e+'?geometries=geojson&steps=true&access_token='+ mapboxgl.accessToken;
-//     	var req = new XMLHttpRequest();
-//     	req.responseType = 'json';
-//     	req.open('GET', url, true);
-//     	req.onload  = function() {
-//     		var jsonResponse = req.response;
-//     		var distance = jsonResponse.routes[0].distance*0.001;
-//     		var duration = jsonResponse.routes[0].duration/60;
-//     		var steps = jsonResponse.routes[0].legs[0].steps;
-//     		var coords = jsonResponse.routes[0].geometry;
+            if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                var currentUserLocation = [position.coords.longitude, position.coords.latitude];
 
+                map.flyTo({
+                center: currentUserLocation,
+                essential: true, // Ensures smooth camera transition
+                zoom: 15,
+                });            
+                currentUserMarker.setLngLat(currentUserLocation);
 
-//             // get route directions on load map
-//             steps.forEach(function(step){
-//             	instructions.insertAdjacentHTML('beforeend', '<p>' + step.maneuver.instruction + '</p>');
-//             });
-//             // get distance and duration
-//             instructions.insertAdjacentHTML('beforeend', '<p>' +  'Distance: ' + distance.toFixed(2) + ' km<br>Duration: ' + duration.toFixed(2) + ' minutes' + '</p>');
+            })};
 
-//             // add the route to the map
-//             addRoute(coords);
-//            // console.log(coordinates);
+            setTimeout(GetUserLocation, 5000);
+        }
 
-//        };
-//        req.send();
-//    }
-
-
-    // // adds the route as a layer on the map
-    // function addRoute (coords) {
-    //     // check if the route is already loaded
-    //     if (map.getSource('route')) {
-    //     	map.removeLayer('route');
-    //     	map.removeSource('route')
-    //     } else{
-    //     	map.addLayer({
-    //     		"id": "route",
-    //     		"type": "line",
-    //     		"source": {
-    //     			"type": "geojson",
-    //     			"data": {
-    //     				"type": "Feature",
-    //     				"properties": {},
-    //     				"geometry": coords
-    //     			}
-    //     		},
-
-    //     		"layout": {
-    //     			"line-join": "round",
-    //     			"line-cap": "round"
-    //     		},
-    //     		"paint": {
-    //     			"line-color": "#1db7dd",
-    //     			"line-width": 4,
-    //     			"line-opacity": 1
-    //     		}
-    //     	});
-    //     };
-    // }
-
-
-
-
-</script>
+    </script>
 
 </body>
 </html>
