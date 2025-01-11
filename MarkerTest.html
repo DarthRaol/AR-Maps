@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Add a default marker to a web map</title>
+<title>User Location</title>
 <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
 <link href="https://api.mapbox.com/mapbox-gl-js/v3.9.2/mapbox-gl.css" rel="stylesheet">
 <script src="https://api.mapbox.com/mapbox-gl-js/v3.9.2/mapbox-gl.js"></script>
@@ -15,27 +15,20 @@ body { margin: 0; padding: 0; }
 <div id="map"></div>
 
 <script>
-	// TO MAKE THE MAP APPEAR YOU MUST
-	// ADD YOUR ACCESS TOKEN FROM
-	// https://account.mapbox.com
+
 	mapboxgl.accessToken = 'pk.eyJ1IjoiZmFraHIiLCJhIjoiY2pseXc0djE0MHBibzN2b2h4MzVoZjk4aSJ9.ImbyLtfsfSsR_yyBluR8yQ';
+    
     const map = new mapboxgl.Map({
-        container: 'map',
-        // Choose from Mapbox's core styles, or make your own style with Mapbox Studio
-        style: 'mapbox://styles/mapbox/streets-v9',
-        center: [19.0827, 72.9183],
-        zoom: 8
+    container: 'map', // container ID
+    style: 'mapbox://styles/mapbox/streets-v11', 
+    center: [72.91856387262948, 19.08271777846903],
+    zoom: 10
     });
 
-    // Create a default Marker and add it to the map.
-    const marker1 = new mapboxgl.Marker()
-        .setLngLat([19.0830, 72.9184])
-        .addTo(map);
+    const marker = new mapboxgl.Marker()
+    .setLngLat([72.91856387262948, 19.08271777846903])
+    .addTo(map);
 
-    // Create a default Marker, colored black, rotated 45 degrees.
-    const marker2 = new mapboxgl.Marker({ color: 'black', rotation: 45 })
-        .setLngLat([19.0824, 72.9186])
-        .addTo(map);
 </script>
 
 </body>

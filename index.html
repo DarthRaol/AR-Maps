@@ -36,23 +36,23 @@
 		//var instructions = document.getElementById('instructions');
 
 		var map = new mapboxgl.Map({
-        container: 'map', // container id
-        style: 'mapbox://styles/mapbox/streets-v9', //hosted style id
-        center: [19.082718000810157, 72.91830174620189], // starting position
-        zoom: 15, // starting zoom
-        minZoom: 11 // keep it local
-    });
+            container: 'map', // container id
+            style: 'mapbox://styles/mapbox/streets-v9', //hosted style id
+            center: [72.91830174620189, 19.082718000810157], // starting position
+            zoom: 15, // starting zoom
+            minZoom: 11 // keep it local
+        });
 
     const el = document.createElement('div');
     el.className = 'marker';
-    el.style.backgroundImage = `url(https://picsum.photos/id/1011/60/60)`;
+    el.style.backgroundImage = `url(img/currentLocation.png)`;
     el.style.width = `60px`;
     el.style.height = `60px`;
     el.style.backgroundSize = '100%';
 
-    // make a marker for each feature and add to the map
+    //make a marker for each feature and add to the map
     new mapboxgl.Marker(el)
-    .setLngLat([19.08, 72.91])
+    .setLngLat([72.91830174620189, 19.082718000810157])
     .addTo(map);
 
 
