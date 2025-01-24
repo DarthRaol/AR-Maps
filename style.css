@@ -1,0 +1,33 @@
+@font-face {
+    font-family: 'DMSansRegular';
+    src: url('fonts/DMSans-Regular.ttf') format('truetype'); /* Regular font */
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'DMSansBold';
+    src: url('fonts/DMSans-Bold.ttf') format('truetype'); /* Bold font */
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'UnboundBold';
+    src: url('fonts/Unbounded-Bold.ttf') format('truetype'); /* Unbounded Bold font */
+    font-weight: bold;
+    font-style: normal;
+}
+
+/* General Reset */
+body {
+    margin: 0;
+    background-color: #fdfdfd;
+    color: #333;
+    font-family: 'DMSansRegular', sans-serif;
+}
+
+.title1{
+    font-family: 'UnboundBold', sans-serif;
+
+}
