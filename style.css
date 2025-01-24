@@ -13,11 +13,22 @@
 }
 
 @font-face {
+    font-family: 'DMSansSemiBold';
+    src: url('fonts/DMSans-SemiBold.ttf') format('truetype'); /* Bold font */
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
     font-family: 'UnboundBold';
     src: url('fonts/Unbounded-Bold.ttf') format('truetype'); /* Unbounded Bold font */
     font-weight: bold;
     font-style: normal;
 }
+
+
+
+
 
 * {
 margin: 0;
@@ -152,9 +163,28 @@ margin: 0;
         width : 55%;
         height: 85%;
     font-size: 0.8rem;
-       
+    }
+
+    .instructions{
+        display: block;
 
     }
+
+    ul {
+        margin-left: 10%;
+    }
+
+    ul li ,.IntroductionReady{
+    margin : 1.3rem 0%;
+    font-family: "DMSansSemiBold", sans-serif;
+    font-weight:500;
+    font-size: 0.75rem;
+    }
+
+    .IntroductionReady{
+        margin-left: 10%;
+        margin-bottom: 10%;
+        }
     
     .background-text {
     position: absolute;
@@ -164,3 +194,12 @@ margin: 0;
     z-index: 0;
     line-height: 1;
     }
+
+    .GameOnButton{
+        width: 50%;
+        height: 85%;
+        font-size: 0.8rem;
+        margin-left: 25%;
+    }
+
+
