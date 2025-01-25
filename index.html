@@ -40,7 +40,7 @@
 
         const map = new mapboxgl.Map({
             container: 'map', // container id
-            style: 'mapbox://styles/mapbox/streets-v9', //hosted style id
+            style: 'mapbox://styles/mapbox/light-v11', //hosted style id //default mapbox://styles/mapbox/streets-v12
             center: [72.8840, 19.0753], // starting position 19.075391698025193, 72.88401152026877
             zoom: 12, // starting zoom
             minZoom: 11 // keep it local
@@ -134,6 +134,28 @@
         map.addControl(directions, 'top-left');
         const directionsContainer = document.querySelector('.mapboxgl-ctrl-directions');
         directionsContainer.style.display = "none";
+
+        // Wait for the map to load
+map.on('load', () => {
+  // Listen for when a route is rendered
+  directions.on('route', () => {
+    const routeLayerId = 'directions-route-line'; // Layer for the inner route line
+
+    // Check if the layer exists and update its properties
+    if (map.getLayer(routeLayerId)) {
+      map.setPaintProperty(routeLayerId, 'line-color', '#D3D3D3'); // Set route color
+      map.setPaintProperty(routeLayerId, 'line-width', 5); // Optional: Adjust route width
+    }
+
+    const casingLayerId = 'directions-route-line-casing'; // Layer for the outer casing
+
+    // Optionally customize the casing layer too
+    if (map.getLayer(casingLayerId)) {
+      map.setPaintProperty(casingLayerId, 'line-color', '#A9A9A9'); // Set casing color
+      map.setPaintProperty(casingLayerId, 'line-width', 8); // Adjust casing width
+    }
+  });
+});
 
         GetUserLocation();
 
