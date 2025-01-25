@@ -1,0 +1,211 @@
+@font-face {
+    font-family: 'DMSansRegular';
+    src: url('fonts/DMSans-Regular.ttf') format('truetype'); /* Regular font */
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'DMSansBold';
+    src: url('fonts/DMSans-Bold.ttf') format('truetype'); /* Bold font */
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'DMSansSemiBold';
+    src: url('fonts/DMSans-SemiBold.ttf') format('truetype'); /* Bold font */
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'UnboundBold';
+    src: url('fonts/Unbounded-Bold.ttf') format('truetype'); /* Unbounded Bold font */
+    font-weight: bold;
+    font-style: normal;
+}
+
+
+
+
+
+* {
+margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'DMSansRegular', sans-serif;
+    }
+    
+    body {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    }
+    
+    .container {
+    width: 100%;
+    max-width: 400px;
+    padding: 2rem;
+    position: relative;
+    background: white;
+    min-height: 100vh;
+    }
+    
+    .logo-placeholder {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto ;
+    }
+    
+    .logo-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    }
+    
+    h1 {
+    font-family: 'UnboundBold', sans-serif;
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    }
+    
+    h1 span {
+    color: red;
+    font-family: 'UnboundBold', sans-serif;
+    text-align: center;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    }
+    
+    .subtitle {
+    text-align: center;
+    font-size: 0.8rem;
+    font-weight: 550;
+    margin-bottom: 2rem;
+    color: #333;
+    }
+    
+    .form-group {
+    margin-bottom: 1rem;
+    }
+    
+    label {
+    display: block;
+    margin-top: 1rem;
+    margin-bottom: 0.3rem;
+    font-size: 0.9rem;
+    }
+
+    .form-group label {
+        font-size: 0.8rem;
+    }
+    
+    label.required::after {
+    content: '*';
+    color: red;
+    margin-left: 2px;
+    }
+    
+    input, select {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1.7px solid #000000;
+    background-color: #ffffff;
+    font-family:'DMSanRegular',sans-serif ;
+    font-weight: 600;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    }
+
+    select{
+        width: 50%; 
+        padding: 0.45rem;
+    }
+    
+    .terms {
+    display: flex;
+    gap: 0.5rem;
+    align-items: start;
+    margin: 1.5rem 0;
+    }
+    
+    .terms input {
+    width: auto;
+    margin-top: 3px;
+    }
+    
+    .terms label {
+    font-size: 0.8rem;
+    margin: 0;
+    }
+    
+    .terms a {
+    color: red;
+    text-decoration: none;
+    }
+    
+    button {
+    width: 100%;
+    padding: 0.75rem;
+    background: #ff0000;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+    cursor: pointer;
+    }
+
+    .Loginsubmit{
+        width : 55%;
+        height: 85%;
+    font-size: 0.8rem;
+    }
+
+    .instructions{
+        display: block;
+
+    }
+
+    ul {
+        margin-left: 10%;
+    }
+
+    ul li ,.IntroductionReady{
+    margin : 1.3rem 0%;
+    font-family: "DMSansSemiBold", sans-serif;
+    font-weight:500;
+    font-size: 0.75rem;
+    }
+
+    .IntroductionReady{
+        margin-left: 10%;
+        margin-bottom: 10%;
+        }
+    
+    .background-text {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    font-weight: bold;
+    z-index: 0;
+    line-height: 1;
+    }
+
+    .GameOnButton{
+        width: 50%;
+        height: 85%;
+        font-size: 0.8rem;
+        margin-left: 25%;
+    }
+
+    .map{
+        border: 3px solid #ff0000;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    }
+
+
