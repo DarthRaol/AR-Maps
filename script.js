@@ -1,4 +1,5 @@
-//linking road, mount mary, Carter road and main spot
+//linking road, mount mary, Carter road and main spot 72.82381059620167,19.14447093225438curr
+var narkerIndex;
 var invalidLocations = [[72.83319, 19.06456], [72.82231, 19.04669], [72.82182, 19.05925], [72.83442, 19.06039]]
 
 
@@ -32,6 +33,7 @@ if (navigator.geolocation)
         function(position) 
         {
             var currentUserLocation = [position.coords.longitude, position.coords.latitude];
+            invalidLocations.push(currentUserLocation);
         },
         function (e) 
         {
@@ -75,6 +77,7 @@ const mainMarker = new mapboxgl.Marker(locationDiv[0])
 
 locationDiv[0].addEventListener('click', () => {
     directions.setDestination([72.83442962698251, 19.06039440629186]);
+    DisableMarkers(0);
 });
 
 const mountMaryMarker = new mapboxgl.Marker(locationDiv[1])
@@ -82,7 +85,7 @@ const mountMaryMarker = new mapboxgl.Marker(locationDiv[1])
 .addTo(map);
 
 locationDiv[1].addEventListener('click', () => {
-    console.log('Marker clicked!');
+    DisableMarkers(1);
     directions.setDestination([72.8223198538909, 19.04669575360127]);
 });
 
@@ -91,7 +94,7 @@ const linkingRoadMarker = new mapboxgl.Marker(locationDiv[2])
 .addTo(map);
 
 locationDiv[2].addEventListener('click', () => {
-    console.log('Marker clicked!');
+    DisableMarkers(2);
     directions.setDestination([72.83319865767248, 19.064565201862816]);
 });
 
@@ -100,7 +103,7 @@ const carterRoadMarker = new mapboxgl.Marker(locationDiv[3])
 .addTo(map);
 
 locationDiv[3].addEventListener('click', () => {
-    console.log('Marker clicked!');
+    DisableMarkers(3);
     directions.setDestination([72.82182527116375, 19.05925964768773]);
 });
 
@@ -133,6 +136,14 @@ map.on('load', () => {
         if (map.getLayer(casingLayerId)) {
         map.setPaintProperty(casingLayerId, 'line-color', '#A9A9A9'); // Set casing color
         map.setPaintProperty(casingLayerId, 'line-width', 8); // Adjust casing width
+        }
+
+        const DirectionId = 'directions-origin-point'; // Layer for the outer casing
+
+        // Optionally customize the casing layer too
+        if (map.getLayer(DirectionId)) {
+            map.setLayoutProperty('directions-origin-point', 'visibility', 'none');
+            map.setLayoutProperty('directions-destination-point', 'visibility', 'none');
         }
     });
 });
@@ -173,7 +184,6 @@ function GetUserLocation(){
 
 function hasReached(currentLat, currentLng, tolerance = 0.0001) 
 {
-
     invalidLocations.forEach(location => 
     {
         // Compare current coordinates with target coordinates within the tolerance
@@ -184,17 +194,42 @@ function hasReached(currentLat, currentLng, tolerance = 0.0001)
         {
             if(location == [72.83442, 19.06039])
             {
-                //console.log("You have reached the main target location!");
+                console.log("You have reached the main target location!");
                 return true;
             }
-            //console.log("You have reached the invalid target location!");
+            console.log("You have reached the invalid target location!");
+            document.getElementById("customModal").style.display = 'block';
             return true;
         }
         else 
         {
-            //console.log("You have not reached the target location.");
+            console.log("You have not reached the target location.");
             return false;
         }
     });
     
 }
+
+function DisableMarkers(index)
+{
+    narkerIndex = index;
+    for (let i = 0; i < locationDiv.length; i++) {
+        if(i != index)
+        {
+            locationDiv[i].style.display = 'none';
+        }
+        
+    }
+}
+
+function EnableMarkers()
+{
+    for (let i = 0; i < locationDiv.length; i++) {
+            locationDiv[i].style.display = 'block';
+    }
+}
+
+document.getElementById("nextStepButton").addEventListener('click', () => {
+    EnableMarkers();
+    document.getElementById("customModal").style.display = 'none';
+});
