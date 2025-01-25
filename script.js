@@ -45,7 +45,7 @@ if (navigator.geolocation)
         function(position) 
         {
             var currentUserLocation = [position.coords.longitude, position.coords.latitude];
-            //invalidLocations.push(currentUserLocation);
+            invalidLocations.push(currentUserLocation);
         },
         function (e) 
         {
@@ -208,10 +208,11 @@ function hasReached(currentLat, currentLng, tolerance = 0.0001)
             if(location == [72.83442, 19.06039])
             {
                 console.log("You have reached the main target location!");
+                document.getElementById("CorrectLocationModal").style.display = 'block';
                 return true;
             }
             console.log("You have reached the invalid target location!");
-            document.getElementById("customModal").style.display = 'block';
+            document.getElementById("WrongLocationModal").style.display = 'block';
             return true;
         }
         else 
@@ -255,6 +256,8 @@ function DisableMarkers(index)
         {
             locationDiv[i].style.display = 'none';
         }
+        locationDiv[index].style.backgroundImage = `url('../img/logo-greyed.png')`;
+        locationDiv[index].onclick = 'none';
         
     }
 }
