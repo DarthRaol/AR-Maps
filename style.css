@@ -225,6 +225,7 @@ margin: 0;
         height: 10%;
         width: 100%;
         bottom:0;
+        border-radius: 6px;
     }
 
 
@@ -271,7 +272,7 @@ margin: 0;
     }
 
     .modal {
-        display: none; /* Hidden by default */
+        
         position: fixed; 
         z-index: 1000; 
         left: 0;
@@ -280,6 +281,18 @@ margin: 0;
         height: 100%;
         overflow: auto;
         background-color: rgba(0, 0, 0, 0.5); /* Black background with opacity */
+    }
+
+    #WrongLocationModal{
+        display: none; /* Hidden by default */
+    }
+
+    #CorrectLocationModal{
+        display: none; /* Hidden by default */
+    }
+
+    #CorrectLocationModal .modal-content {
+        padding : 30px;
     }
 
     .modal-content h1,.modal-content h1 span {
