@@ -45,7 +45,7 @@ if (navigator.geolocation)
         function(position) 
         {
             var currentUserLocation = [position.coords.longitude, position.coords.latitude];
-            invalidLocations.push(currentUserLocation);
+            //invalidLocations.push(currentUserLocation);
         },
         function (e) 
         {
