@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ARKS Adventure Form</title>
     <link rel="stylesheet" href="../style.css">
+
+    <script src="https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-directions/v4.1.1/mapbox-gl-directions.js"></script>
+	  <link href="https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.css" rel="stylesheet" />
 </head>
 <body>
   <div class="container">
@@ -15,9 +19,11 @@
     <h1>WHERE’S MY <span>ARKS</span></h1>
     <p class="subtitle">Where’s the real ARKS Store hiding?<br>Make your choice to unlock the next step!</p>
 
-    <canvas class= "map">
-
-    </canvas>
+    <div id="parentmap">
+      <div id='map'></div>
+    </div>
+    <!-- <canvas class= "map">
+    </canvas> -->
   </div>
    <!-- Modal  -->
   <div class="modal" id="customModal">
@@ -32,6 +38,8 @@
       </div>
     </div>
   </div>
+
+  <script src="../script.js"></script>
 
 </body>
 

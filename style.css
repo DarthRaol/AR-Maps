@@ -202,10 +202,26 @@ margin: 0;
         margin-left: 25%;
     }
 
-    .map{
+    #parentmap{
         border: 3px solid #ff0000;
         border-radius: 8px;
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        position: relative;
+        height: 200px;
+    }
+    #map
+    { 
+        height: 100%;
+        width:100%;
+        mask-size: cover;
+    }
+    .marker {
+        display: block;
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        padding: 0;
+        background-repeat: no-repeat;
     }
 
     .modal {
