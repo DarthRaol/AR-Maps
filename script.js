@@ -1,7 +1,10 @@
 //linking road, mount mary, Carter road and main spot 72.82381059620167,19.14447093225438curr
 var narkerIndex;
+var currentTolerance = 0.00004;
 var invalidLocations = [[72.83319, 19.06456], [72.82231, 19.04669], [72.82182, 19.05925], [72.83442, 19.06039]]
 
+const hotcold = document.getElementById("HotColdIndicator");
+hotcold.style.display = 'none';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZmFraHIiLCJhIjoiY2pseXc0djE0MHBibzN2b2h4MzVoZjk4aSJ9.ImbyLtfsfSsR_yyBluR8yQ';
 
@@ -15,15 +18,24 @@ const map = new mapboxgl.Map({
 
 const mapElement = document.getElementById("parentmap");
 mapElement.addEventListener('click', () => {
-    if (mapElement.requestFullscreen) {
-        mapElement.requestFullscreen();
-      } else if (mapElement.mozRequestFullScreen) { // Firefox
-        mapElement.mozRequestFullScreen();
-      } else if (mapElement.webkitRequestFullscreen) { // Safari and Chrome
-        mapElement.webkitRequestFullscreen();
-      } else if (mapElement.msRequestFullscreen) { // IE/Edge
-        mapElement.msRequestFullscreen();
-      }    
+    // if (mapElement.requestFullscreen) {
+    //     mapElement.requestFullscreen();
+    //   } else if (mapElement.mozRequestFullScreen) { // Firefox
+    //     mapElement.mozRequestFullScreen();
+    //   } else if (mapElement.webkitRequestFullscreen) { // Safari and Chrome
+    //     mapElement.webkitRequestFullscreen();
+    //   } else if (mapElement.msRequestFullscreen) { // IE/Edge
+    //     mapElement.msRequestFullscreen();
+    //   }    
+
+    const allNonScreenItem = document.getElementsByClassName("fullscreen");
+
+    for (let index = 0; index < allNonScreenItem.length; index++) {
+        const element = allNonScreenItem[index];
+            element.style.display = 'none';
+    }
+    
+    mapElement.style.height = '100vh';
       map.resize();
 });
 
@@ -33,7 +45,7 @@ if (navigator.geolocation)
         function(position) 
         {
             var currentUserLocation = [position.coords.longitude, position.coords.latitude];
-            invalidLocations.push(currentUserLocation);
+            //invalidLocations.push(currentUserLocation);
         },
         function (e) 
         {
@@ -165,6 +177,7 @@ function GetUserLocation(){
 
                 console.log(currentUserLocation + "curr is ");
                 hasReached(currentUserLocation[0], currentUserLocation[1], 0.00001)
+                ClosureToStore(currentUserLocation[0], currentUserLocation[1], currentTolerance)
 
                 map.flyTo(
                 {
@@ -208,6 +221,30 @@ function hasReached(currentLat, currentLng, tolerance = 0.0001)
         }
     });
     
+}
+
+function ClosureToStore(currentLat, currentLng, tolerance) 
+{
+    const latDiff = Math.abs(currentLat - 72.83442);
+    const lngDiff = Math.abs(currentLng - 72.83442);
+
+    if (latDiff <= tolerance && lngDiff <= tolerance) 
+    {
+        hotcold.style.display = 'block';
+        currentTolerance = latDiff;
+        hotcold.children[0].classList.remove('Cold');
+        hotcold.children[0].classList.add('Hot')
+    }
+    else if (latDiff >= tolerance && lngDiff >= tolerance && latDiff <= tolerance + 0.00001 && lngDiff <= tolerance + 0.00001) 
+    {
+        hotcold.style.display = 'block';
+        hotcold.children[0].classList.remove('Hot');
+        hotcold.children[0].classList.add('Cold')
+    }
+    else
+    {
+        hotcold.style.display = 'none';
+    }
 }
 
 function DisableMarkers(index)
