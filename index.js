@@ -1,6 +1,11 @@
+
+
+document.getElementById("LoginModal").style.display = "none";
+
+
+
 document.getElementById("arksForm").addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent default form submission
-    console.log("Please enter your first name.");
     // Get form inputs
     const firstName = document.getElementById("firstName").value.trim();
     const lastName = document.getElementById("lastName").value.trim();
