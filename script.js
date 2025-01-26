@@ -273,3 +273,50 @@ document.getElementById("nextStepButton").addEventListener('click', () => {
     EnableMarkers();
     document.getElementById("customModal").style.display = 'none';
 });
+
+
+document.getElementById("arksFormSubmit").addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent default form submission
+    console.log("Please enter your first name.");
+    // Get form inputs
+    const firstName = document.querySelector("input[placeholder='First name']").value.trim();
+    const lastName = document.querySelector("input[placeholder='Last name']").value.trim();
+    const email = document.querySelector("input[placeholder='dummy@xyz.com']").value.trim();
+    const location = document.querySelector("select").value;
+    const termsAccepted = document.getElementById("terms").checked;
+
+    // Validation checks
+    if (!firstName) {
+        alert("Please enter your first name.");
+        return;
+    }
+
+    if (!lastName) {
+        alert("Please enter your last name.");
+        return;
+    }
+
+    if (!email) {
+        alert("Please enter your email address.");
+        return;
+    }
+
+    // Basic email format validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        alert("Please enter a valid email address.");
+        return;
+    }
+
+    if (!termsAccepted) {
+        alert("You must accept the terms and conditions.");
+        return;
+    }
+
+    // Check location and redirect if valid
+    if (location === "Mumbai") {
+        window.location.href = "next-page.html"; // Replace with your desired page
+    } else {
+        alert("This service is currently available only for Mumbai residents.");
+    }
+});
