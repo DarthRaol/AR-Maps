@@ -39,7 +39,7 @@ mapElement.addEventListener('click', () => {
             element.style.display = 'none';
     }
     
-    mapElement.style.height = '100vh';
+    mapElement.style.height = '90vh';
     mapElement.style.width = '100wh'
     map.resize();
     //PlayAudio(0);
