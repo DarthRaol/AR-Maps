@@ -11,6 +11,10 @@
 	  <link href="https://api.mapbox.com/mapbox-gl-js/v1.9.1/mapbox-gl.css" rel="stylesheet" />
 </head>
 <body>
+  <audio id="introAudio">
+    <source src="../audio/intro.wav" type="audio/wav">
+    Your browser does not support the audio element.
+  </audio>
   <div class="container">
     <div class="logo-placeholder fullscreen">
       <img src="../img/logo.svg" style="size:2rem;" alt="ARKS Logo">
@@ -35,7 +39,7 @@
         Oops! Close, but not quite!<br> Try again!</p>
       </div>
       <div class="modal-footer">
-        <button  id="nextStepButton">Try Again</button>
+        <button class="retryBtn"  id="nextStepButton">Try Again</button>
       </div>
     </div>
   </div>
@@ -47,7 +51,7 @@
         Hunt for the Secret ARKS Collectible <br>and get exclusive access to ARKS
       </div>
       <div class="modal-footer">
-        <button  id="nextStepButton">Claim My Exclusive Access</button>
+        <button  class="ar-start" id="nextStepButton" >Claim My Exclusive Access</button>
       </div>
     </div>
   </div>

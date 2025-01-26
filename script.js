@@ -3,6 +3,9 @@ var narkerIndex;
 var currentTolerance = 0.00004;
 var invalidLocations = [[72.83319, 19.06456], [72.82231, 19.04669], [72.82182, 19.05925], [72.83442, 19.06039]]
 
+const allAudio = [new Audio('../audio/intro.wav')]
+
+
 const hotcold = document.getElementById("HotColdIndicator");
 if(hotcold)
     hotcold.style.display = 'none';
@@ -37,7 +40,9 @@ mapElement.addEventListener('click', () => {
     }
     
     mapElement.style.height = '100vh';
-      map.resize();
+    mapElement.style.width = '100wh'
+    map.resize();
+    //PlayAudio(0);
 });
 
 if (navigator.geolocation) 
@@ -269,11 +274,32 @@ function EnableMarkers()
             locationDiv[i].style.display = 'block';
     }
 }
-
-document.getElementById("nextStepButton").addEventListener('click', () => {
+document.getElementsByClassName('retryBtn')[0].addEventListener('click', () => {
     EnableMarkers();
-    document.getElementById("customModal").style.display = 'none';
+    document.getElementById("WrongLocationModal").style.display = 'none';
 });
 
+document.getElementsByClassName('ar-start')[0].addEventListener('click', () => {
+    window.location.href = 'https://darthraol.github.io/AR-Maps/pages/Intro.html';
+});
+
+function generate4DigitCode(input) {
+  let hash = 0;
+  for (let i = 0; i < input.length; i++) {
+    hash = (hash << 5) - hash + input.charCodeAt(i);
+    hash = hash & hash; 
+  }
+
+  const code = Math.abs(hash).toString().slice(-4).padStart(4, "0");
+  console.log("code is " + code);
+
+  return code;
+}
+
+function PlayAudio(index)
+{
+    allAudio[index].play();
+    console.log("called");
+}
 
 
