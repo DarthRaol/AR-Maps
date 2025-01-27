@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebXR Marker-less AR</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+  <script type="module">
+    import * as THREE from 'https://unpkg.com/three@0.155.0/build/three.module.js';
+    import { ARButton } from 'https://unpkg.com/three@0.155.0/examples/jsm/webxr/ARButton.js';
+    import { GLTFLoader } from 'https://unpkg.com/three@0.155.0/examples/jsm/loaders/GLTFLoader.js';
+
+    // Setup scene, camera, and renderer
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.01, 20);
+    const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.xr.enabled = true;
+    document.body.appendChild(renderer.domElement);
+
+    // Add AR Button
+    document.body.appendChild(ARButton.createButton(renderer));
+
+    // Light
+    const light = new THREE.HemisphereLight(0xffffff, 0xbbbbff, 1);
+    light.position.set(0.5, 1, 0.25);
+    scene.add(light);
+
+    // Ground plane for spatial context
+    const groundGeometry = new THREE.PlaneGeometry(4, 4);
+    const groundMaterial = new THREE.ShadowMaterial({ opacity: 0.5 });
+    const ground = new THREE.Mesh(groundGeometry, groundMaterial);
+    ground.rotation.x = -Math.PI / 2;
+    ground.position.set(0, -0.5, -1);
+    scene.add(ground);
+
+    // GLTF Loader for custom models
+    const loader = new GLTFLoader();
+
+    // Function to spawn a model
+    function spawnModel() {
+      loader.load(
+        './models/ARKSShoes.glb', // Replace with the path to your GLB/GLTF file
+        (gltf) => {
+          const model = gltf.scene;
+          model.position.set(
+            (Math.random() - 0.5) * 2, // Random X position (-1 to 1 meters)
+            -0.5,                      // On the ground
+            (Math.random() - 0.5) * 2  // Random Z position (-1 to 1 meters)
+          );
+          model.scale.set(0.5, 0.5, 0.5); // Scale the model to a reasonable size
+          scene.add(model);
+        },
+        undefined,
+        (error) => {
+          console.error('Error loading the model:', error);
+        }
+      );
+    }
+
+    // Function to spawn models at random intervals
+    function spawnModelsAtRandomIntervals() {
+      setInterval(() => {
+        spawnModel();
+      }, Math.random() * 5000 + 2000); // Spawn every 2-7 seconds randomly
+    }
+
+    // Start spawning models
+    spawnModelsAtRandomIntervals();
+
+    // Animation loop
+    renderer.setAnimationLoop(() => {
+      renderer.render(scene, camera);
+    });
+  </script>
+</body>
+</html>
