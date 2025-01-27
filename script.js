@@ -1,22 +1,20 @@
 //linking road, mount mary, Carter road and main spot 72.82381059620167,19.14447093225438curr
 var narkerIndex;
 var currentTolerance = 0.00004;
-var invalidLocations = [[72.83319, 19.06456], [72.82231, 19.04669], [72.82182, 19.05925], [72.83442, 19.06039]]
 
 const allAudio = [new Audio('../audio/intro.wav')]
-
 
 const hotcold = document.getElementById("HotColdIndicator");
 if(hotcold)
     hotcold.style.display = 'none';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZmFraHIiLCJhIjoiY2pseXc0djE0MHBibzN2b2h4MzVoZjk4aSJ9.ImbyLtfsfSsR_yyBluR8yQ';
-
+    
 const map = new mapboxgl.Map({
     container: 'map', // container id
     style: 'mapbox://styles/mapbox/light-v11', //hosted style id //default mapbox://styles/mapbox/streets-v12
-    center: [72.8840, 19.0753], // starting position 19.075391698025193, 72.88401152026877
-    zoom: 10, // starting zoom
+    center: [72.83020389574983, 19.060727925746235], // starting position 19.060727925746235, 72.83020389574983
+    zoom: 12, // starting zoom
     minZoom: 10 // keep it local
 });
 
@@ -31,7 +29,7 @@ mapElement.addEventListener('click', () => {
     //   } else if (mapElement.msRequestFullscreen) { // IE/Edge
     //     mapElement.msRequestFullscreen();
     //   }    
-
+    GetUserLocation();
     const allNonScreenItem = document.getElementsByClassName("fullscreen");
 
     for (let index = 0; index < allNonScreenItem.length; index++) {
@@ -44,25 +42,6 @@ mapElement.addEventListener('click', () => {
     map.resize();
     //PlayAudio(0);
 });
-
-if (navigator.geolocation) 
-{
-    navigator.geolocation.getCurrentPosition(
-        function(position) 
-        {
-            var currentUserLocation = [position.coords.longitude, position.coords.latitude];
-            //invalidLocations.push(currentUserLocation);
-        },
-        function (e) 
-        {
-            console.log("1 " + e.message);
-
-        }, 
-        {
-            enableHighAccuracy: true
-        }
-    )
-};
 
 //User marker style
 const mainMarkerIcon = document.createElement('div');
@@ -130,7 +109,7 @@ accessToken: mapboxgl.accessToken,
 unit: 'metric', // Units: 'imperial' or 'metric'
 profile: 'mapbox/driving', // Routing profile: driving, walking, cycling
 addMarkers: false, // Disable the start and end markers
-interactive: false
+interactive: false,
 });
 map.addControl(directions, 'top-left');
 const directionsContainer = document.querySelector('.mapboxgl-ctrl-directions');
@@ -166,39 +145,45 @@ map.on('load', () => {
     });
 });
 
-GetUserLocation();
-
 function GetUserLocation(){
     // do whatever you like here
 
 
-    if (navigator.geolocation) 
-    {
-        navigator.geolocation.getCurrentPosition(
+    if ('geolocation' in navigator) {
+        navigator.geolocation.watchPosition(
             (position) => 
             {
-                var currentUserLocation = [position.coords.longitude, position.coords.latitude];
+                const currentUserLocation = [position.coords.longitude, position.coords.latitude];
                 currentUserMarker.setLngLat(currentUserLocation);
                 directions.setOrigin(currentUserLocation); //19.082685132964084, 72.91854103288533
-
+                
                 console.log(currentUserLocation + "curr is ");
-                hasReached(currentUserLocation[0], currentUserLocation[1], 0.00001)
-                ClosureToStore(currentUserLocation[0], currentUserLocation[1], currentTolerance)
+                //hasReached(currentUserLocation[0], currentUserLocation[1], 0.00001)
+                //ClosureToStore(currentUserLocation[0], currentUserLocation[1], currentTolerance)
 
-                map.flyTo(
-                {
-                    center: [72.8840, 19.0753], 
-                    zoom: 10,
-                    speed:0.1
-                });
+                map.flyTo({
+                    center: [72.8840, 19.0753], // New center coordinates
+                    zoom: 10, // starting zoom
+                    speed: 1.2,                    // Animation speed (default: 1.2)
+                  }); 
+                console.log(currentUserLocation + " curr is after");
+
+            },
+            (error) => {
+              console.error('Error getting location:', error);
+            },
+            {
+              enableHighAccuracy: true,
+              timeout: 10000,
+              maximumAge: 0,
             }
         )
+    }
+    else {
+        console.error('Geolocation is not available in this browser.');
+      };
 
-        
-
-    };
-
-    setTimeout(GetUserLocation, 5000);
+    setTimeout(GetUserLocation, 3000);
 }
 
 function hasReached(currentLat, currentLng, tolerance = 0.0001) 
