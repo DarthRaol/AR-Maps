@@ -355,5 +355,27 @@ margin: 0;
     }
 
 
+h4{
+    text-align: center;
+}
 
+h4 span{
+    color: #ff0000;
+}
 
+.Voucher{
+    color: #ff0000;
+    padding: 5vh 0;
+    font-size: 2rem;
+}
+
+.Top100{
+    display: block;
+    margin-top: 5vh;
+}
+
+.Above100{
+    display: block;
+    margin-top: 5vh;
+    margin-bottom: 5vh;
+}
