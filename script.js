@@ -203,7 +203,7 @@ function GetUserLocation(){
                 invalidLocations.push(currentUserLocation);
                 
                 console.log(currentUserLocation + "curr is ");
-                //hasReached(currentUserLocation[0], currentUserLocation[1], 0.00001)
+                hasReached(currentUserLocation[0], currentUserLocation[1], 0.00001)
                 if(canHotCold)
                     ClosureToStore(currentUserLocation[0], currentUserLocation[1], currentTolerance)
 
@@ -285,6 +285,8 @@ function hasReached(currentLat, currentLng, tolerance = 0.0001)
 
 function ClosureToStore(currentLat, currentLng, tolerance) 
 {
+
+    console.log("tolerance is " + currentTolerance + " passed tolerance is " + tolerance);
     const latDiff = Math.abs(currentLat - invalidLocations[4][0]);
     const lngDiff = Math.abs(currentLng - invalidLocations[4][1]);
 
@@ -301,7 +303,7 @@ function ClosureToStore(currentLat, currentLng, tolerance)
         }, 15000);
         PlayAudio("../audio/hot.wav");
     }
-    else if (latDiff >= tolerance && lngDiff >= tolerance && latDiff <= tolerance + 0.00001 && lngDiff <= tolerance + 0.00001) 
+    else if (latDiff >= tolerance && lngDiff >= tolerance && latDiff <= tolerance + 0.00001 && lngDiff <= tolerance + 0.00001 && tolerance != 0) 
     {
         hotcold.style.display = 'block';
         hotcold.children[0].classList.remove('Hot');
