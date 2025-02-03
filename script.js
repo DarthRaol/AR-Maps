@@ -1,6 +1,7 @@
 //linking road, mount mary, Carter road and main spot 72.82381059620167,19.14447093225438curr
 var narkerIndex;
 var currentTolerance = 0.00004;
+var invalidLocations = [[72.83319, 19.06456], [72.82231, 19.04669], [72.82231, 19.04669], [72.83442, 19.06039]]
 
 const allAudio = [new Audio('../audio/intro.wav')]
 
