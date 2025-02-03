@@ -1,12 +1,12 @@
 //linking road, mount mary, Carter road and main spot 72.82381059620167,19.14447093225438curr
 var narkerIndex;
-var currentTolerance = 0.00004;
+var currentTolerance = 0.0004;
 
 const allAudio = [new Audio('../audio/intro.wav')]
 
 const audioSource = document.getElementById("AudioSource");
 
-var invalidLocations = [[72.83319, 19.06456], [72.82231, 19.04669], [72.82231, 19.04669], [72.83442, 19.06039], [72.85544183423875, 19.257752987325663]]
+var invalidLocations = [[72.83319, 19.06456], [72.82231, 19.04669], [72.82231, 19.04669], [72.83442, 19.06039]]
 
 var calledIntro = false;
 
@@ -199,9 +199,11 @@ function GetUserLocation(){
                 const currentUserLocation = [position.coords.longitude, position.coords.latitude];
                 currentUserMarker.setLngLat(currentUserLocation);
                 directions.setOrigin(currentUserLocation); //19.082685132964084, 72.91854103288533
+
+                invalidLocations.push(currentUserLocation);
                 
                 console.log(currentUserLocation + "curr is ");
-                hasReached(currentUserLocation[0], currentUserLocation[1], 0.00001)
+                //hasReached(currentUserLocation[0], currentUserLocation[1], 0.00001)
                 if(canHotCold)
                     ClosureToStore(currentUserLocation[0], currentUserLocation[1], currentTolerance)
 
@@ -283,8 +285,8 @@ function hasReached(currentLat, currentLng, tolerance = 0.0001)
 
 function ClosureToStore(currentLat, currentLng, tolerance) 
 {
-    const latDiff = Math.abs(currentLat - 72.85544183423875);
-    const lngDiff = Math.abs(currentLng - 19.257752987325663);
+    const latDiff = Math.abs(currentLat - invalidLocations[4][0]);
+    const lngDiff = Math.abs(currentLng - invalidLocations[4][1]);
 
 
     if (latDiff < tolerance && lngDiff < tolerance) 
