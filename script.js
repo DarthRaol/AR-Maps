@@ -1,14 +1,16 @@
 //linking road, mount mary, Carter road and main spot 72.82381059620167,19.14447093225438curr
 var narkerIndex;
-var currentTolerance = 0.0004;
+var closestDistance = 40;
 
 const allAudio = [new Audio('../audio/intro.wav')]
 
 const audioSource = document.getElementById("AudioSource");
 
-var invalidLocations = [[72.83319, 19.06456], [72.82231, 19.04669], [72.82231, 19.04669], [72.83442, 19.06039]]
+var invalidLocations = [[72.83319, 19.06456], [72.82231, 19.04669], [72.82231, 19.04669], [72.83442, 19.06039], [72.91773924379169, 19.081871273584955]]
 
 var calledIntro = false;
+
+var locationReached = true;
 
 const hotcold = document.getElementById("HotColdIndicator");
 var canHotCold = true;
@@ -200,12 +202,13 @@ function GetUserLocation(){
                 currentUserMarker.setLngLat(currentUserLocation);
                 directions.setOrigin(currentUserLocation); //19.082685132964084, 72.91854103288533
 
-                invalidLocations.push(currentUserLocation);
-                
-                console.log(currentUserLocation + "curr is ");
-                hasReached(currentUserLocation[0], currentUserLocation[1], 0.00001)
+                //invalidLocations.push(currentUserLocation);
+
                 if(canHotCold)
-                    ClosureToStore(currentUserLocation[0], currentUserLocation[1], currentTolerance)
+                    ClosureToStore(currentUserLocation[0], currentUserLocation[1])
+                
+                if(locationReached)
+                    hasReached(currentUserLocation[0], currentUserLocation[1])
 
                 // map.flyTo({
                 //     center: [72.8840, 19.0753], // New center coordinates
@@ -232,18 +235,28 @@ function GetUserLocation(){
     setTimeout(GetUserLocation, 3000);
 }
 
+// Function to check if user reached target location
+function checkProximity(userCoords, targetLocation) {
+    const userPoint = turf.point(userCoords);
+    const targetPoint = turf.point(targetLocation);
+    const distance = turf.distance(userPoint, targetPoint, { units: 'meters' });
+
+    console.log(`Distance to target: ${distance.toFixed(2)} meters`);
+
+    return distance.toFixed(2);
+}
+
 var invalidCount = 0;
-function hasReached(currentLat, currentLng, tolerance = 0.0001) 
+function hasReached(currentLat, currentLng) 
 {
     invalidLocations.forEach(location => 
-    {
-        // Compare current coordinates with target coordinates within the tolerance
-        const latDiff = Math.abs(currentLat - location[0]);
-        const lngDiff = Math.abs(currentLng - location[1]);
-
-        if (latDiff <= tolerance && lngDiff <= tolerance) 
         {
-            if(location[0] === 72.85544183423875 && location[1] === 19.257752987325663)
+        var currDistance = checkProximity([currentLat, currentLng], location);
+
+        if(currDistance < 10)
+        {
+            locationReached = false;
+            if(location === invalidLocations[4])
             {
                 console.log("You have reached the main target location!");
                 document.getElementById("CorrectLocationModal").style.display = 'block';
@@ -272,6 +285,8 @@ function hasReached(currentLat, currentLng, tolerance = 0.0001)
                     invalidCount = 0;
                     break;
             }
+
+            invalidLocations.pop(location);
             return true;
         }
         else 
@@ -279,22 +294,61 @@ function hasReached(currentLat, currentLng, tolerance = 0.0001)
             console.log("You have not reached the target location.");
             return false;
         }
+
+        // // Compare current coordinates with target coordinates within the tolerance
+        // const latDiff = Math.abs(currentLat - location[0]);
+        // const lngDiff = Math.abs(currentLng - location[1]);
+
+        // if (latDiff <= tolerance && lngDiff <= tolerance) 
+        // {
+        //     if(location[0] === 72.85544183423875 && location[1] === 19.257752987325663)
+        //     {
+        //         console.log("You have reached the main target location!");
+        //         document.getElementById("CorrectLocationModal").style.display = 'block';
+        //         PlayAudio("../audio/CorrectLocation.wav");
+        //         return true;
+        //     }
+        //     console.log("You have reached the invalid target location!");
+            
+        //     document.getElementById("WrongLocationModal").style.display = 'block';
+        //     switch(invalidCount)
+        //     {
+        //         case 0:
+        //             PlayAudio("../audio/WrongLocation.wav");
+        //             invalidCount++;
+        //             break;
+        //         case 1:
+        //             PlayAudio("../audio/WrongLocation2.wav");
+        //             invalidCount++;
+        //             break;
+        //         case 2:
+        //             PlayAudio("../audio/WrongLocation.wav");
+        //             invalidCount++;
+        //             break;
+        //         default:
+        //             PlayAudio("../audio/WrongLocation.wav");
+        //             invalidCount = 0;
+        //             break;
+        //     }
+        //     return true;
+        // }
+        // else 
+        // {
+        //     console.log("You have not reached the target location.");
+        //     return false;
+        // }
     });
     
 }
 
-function ClosureToStore(currentLat, currentLng, tolerance) 
+function ClosureToStore(currentLat, currentLng) 
 {
+    var currDistance = checkProximity([currentLat, currentLng], invalidLocations[4]);
 
-    console.log("tolerance is " + currentTolerance + " passed tolerance is " + tolerance);
-    const latDiff = Math.abs(currentLat - invalidLocations[4][0]);
-    const lngDiff = Math.abs(currentLng - invalidLocations[4][1]);
-
-
-    if (latDiff < tolerance && lngDiff < tolerance) 
+    if(closestDistance >= currDistance)
     {
+        closestDistance = currDistance;
         hotcold.style.display = 'block';
-        currentTolerance = latDiff;
         hotcold.children[0].classList.remove('Cold');
         hotcold.children[0].classList.add('Hot');
         canHotCold = false;
@@ -303,7 +357,7 @@ function ClosureToStore(currentLat, currentLng, tolerance)
         }, 15000);
         PlayAudio("../audio/hot.wav");
     }
-    else if (latDiff >= tolerance && lngDiff >= tolerance && latDiff <= tolerance + 0.00001 && lngDiff <= tolerance + 0.00001 && tolerance != 0) 
+    else if(closestDistance <= currDistance && currDistance <= closestDistance + 20)
     {
         hotcold.style.display = 'block';
         hotcold.children[0].classList.remove('Hot');
@@ -318,6 +372,39 @@ function ClosureToStore(currentLat, currentLng, tolerance)
     {
         hotcold.style.display = 'none';
     }
+
+    // console.log("tolerance is " + currentTolerance + " passed tolerance is " + tolerance);
+    // const latDiff = Math.abs(currentLat - invalidLocations[4][0]);
+    // const lngDiff = Math.abs(currentLng - invalidLocations[4][1]);
+
+
+    // if (latDiff < tolerance && lngDiff < tolerance) 
+    // {
+    //     hotcold.style.display = 'block';
+    //     currentTolerance = latDiff;
+    //     hotcold.children[0].classList.remove('Cold');
+    //     hotcold.children[0].classList.add('Hot');
+    //     canHotCold = false;
+    //     setTimeout(() => {canHotCold = true;
+    //         hotcold.style.display = 'none';
+    //     }, 15000);
+    //     PlayAudio("../audio/hot.wav");
+    // }
+    // else if (latDiff >= tolerance && lngDiff >= tolerance && latDiff <= tolerance + 0.00001 && lngDiff <= tolerance + 0.00001 && tolerance != 0) 
+    // {
+    //     hotcold.style.display = 'block';
+    //     hotcold.children[0].classList.remove('Hot');
+    //     hotcold.children[0].classList.add('Cold');
+    //     canHotCold = false;
+    //     setTimeout(() => {canHotCold = true;
+    //     hotcold.style.display = 'none';
+    //     }, 15000);
+    //     PlayAudio("../audio/cold.wav");
+    // }
+    // else
+    // {
+    //     hotcold.style.display = 'none';
+    // }
 }
 
 function DisableMarkers(index)
@@ -336,6 +423,7 @@ function DisableMarkers(index)
 
 function EnableMarkers()
 {
+    locationReached = true;
     for (let i = 0; i < locationDiv.length; i++) {
             locationDiv[i].style.display = 'block';
     }
