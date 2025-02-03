@@ -65,7 +65,7 @@ mainMarkerIcon.style.height = `60px`;
 mainMarkerIcon.style.backgroundSize = '100%';
 
 var locationDiv = []
-for(let i = 0; i < 4; i++)
+for(let i = 0; i < 5; i++)
 {
     locationMarker = document.createElement('div');
     locationMarker.className = 'marker';
@@ -115,6 +115,15 @@ const carterRoadMarker = new mapboxgl.Marker(locationDiv[3])
 locationDiv[3].addEventListener('click', () => {
     DisableMarkers(3);
     directions.setDestination([72.82182527116375, 19.05925964768773]);
+});
+
+const rahulMarker = new mapboxgl.Marker(locationDiv[4])
+.setLngLat([72.85544183423875, 19.257752987325663]) // Marker in carter road
+.addTo(map);
+
+locationDiv[4].addEventListener('click', () => {
+    DisableMarkers(3);
+    directions.setDestination([72.85544183423875, 19.257752987325663]);
 });
 
 function removeDefaultMarkers() {
@@ -232,7 +241,7 @@ function hasReached(currentLat, currentLng, tolerance = 0.0001)
 
         if (latDiff <= tolerance && lngDiff <= tolerance) 
         {
-            if(location[0] === 72.83442 && location[1] === 19.06039)
+            if(location[0] === 72.85544183423875 && location[1] === 19.257752987325663)
             {
                 console.log("You have reached the main target location!");
                 document.getElementById("CorrectLocationModal").style.display = 'block';
