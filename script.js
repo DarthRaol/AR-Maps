@@ -7,7 +7,7 @@ const allAudio = [new Audio('../audio/intro.wav')]
 
 const audioSource = document.getElementById("AudioSource");
 
-var invalidLocations = [[72.83319, 19.06456], [72.82231, 19.04669], [72.82231, 19.04669], [72.83442, 19.06039]]
+var invalidLocations = [[72.83319, 19.06456], [72.82231, 19.04669], [72.82231, 19.04669], [72.83442, 19.06039], [72.91772, 19.08190]]
 
 var calledIntro = false;
 
@@ -140,7 +140,7 @@ map.addControl(directions, 'top-left');
 const directionsContainer = document.querySelector('.mapboxgl-ctrl-directions');
 directionsContainer.style.display = "none";
                 
-directions.setOrigin([72.8840, 19.0753]); //19.082685132964084, 72.91854103288533
+//directions.setOrigin([72.8840, 19.0753]); //19.082685132964084, 72.91854103288533
 
 directions.on('route', (event) => {
     if (event.route.length) {
