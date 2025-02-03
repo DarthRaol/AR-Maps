@@ -10,9 +10,7 @@ document.getElementById("arksForm").addEventListener('submit', function(event) {
     const firstName = document.getElementById("firstName").value.trim();
     const lastName = document.getElementById("lastName").value.trim();
     const email = document.getElementById("email").value.trim();
-    const location = document.getElementById("Location").value;
-    const termsAccepted = document.getElementById("terms").checked;
-
+    
     // Validation checks
     if (!firstName) {
         ShowModal("No <span>First Name</span>","Please enter your first name<br> to continue")
@@ -36,19 +34,14 @@ document.getElementById("arksForm").addEventListener('submit', function(event) {
         ShowModal("Invalid <span>Email</span>","Please enter a valid email address<br> to continue");
         return;
     }
-
-    if (!termsAccepted) {
-        ShowModal("<span>Terms & Condition</span>","You must accept the terms and conditions<br> to continue");
-        return;
-    }
-
-    // Check location and redirect if valid
-    if (location === "Mumbai") {
-        window.location.href = "/pages/intro.html"; // Replace with your desired page
-    } else {
-        ShowModal("Coming <span>Soon</span>","Right now, the ARKS store hunt is all Mumbai’s,<br> but we’re going online on 14th February 2025!<br> Stay tuned to join the fun!");
-    }
+        window.location.href = "LocationTnC.html"; // Replace with your desired page
+    
 });
+
+
+
+
+
 
 function hideButton() {
 

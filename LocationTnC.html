@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARKS Adventure Form</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="logo-placeholder">
+      <img src="../img/logo.svg" style="size:2rem;" alt="ARKS Logo">
+    </div>
+    
+    <h1>WHERE’S THE <br><span>ARKS</span> STUDIO?</h1>
+    <p class="subtitle">You’re just a step away to becoming an ARKS VIP!<br>Help Us Know You Better.</p>
+
+    
+    <form id="TnCForm">
+      <p class="rightnow">Where are you right <span>now?</span></p>
+      <div class="form-group">
+        
+        <select id="Location">
+          <option value="Mumbai">Mumbai</option>
+          <option >Outside Mumbai</option>
+        </select>
+      </div>
+      
+      <div class="terms">
+        
+        <label for="terms">I Accept The Following <a href="#">Terms And Conditions</a></label>
+      </div>
+      
+      <button class="Loginsubmit" id="arksFormSubmit" type="submit">I Accept</button>
+    </form>
+    </div>
+    
+    <img class="background-text" src="../img/ARKSBackground.svg">
+
+    <div class="modal" id="LoginModal">
+      <div class="modal-content">
+        
+        <h1 id="ModalTitle">Coming <span>Soon</span></h1>
+        <div class="modal-body" id="modal-body">
+          Right now, the<span> ARKS Studio </span>is only in Mumbai. But don’t worry, you can join the celebration as we open online orders from <span>14th February, 2025</span>. Mark your calendars and shop with us!
+        </div>
+
+      </div>
+    </div>
+
+
+    <script>
+
+
+document.getElementById("LoginModal").style.display = "none";
+
+
+
+      document.getElementById("TnCForm").addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent default form submission
+    // Get form inputs
+    const location = document.getElementById("Location").value;
+        console.log(location.value)
+    
+        if(location === "Mumbai"){ window.location.href = "/pages/intro.html"}
+
+        else {document.getElementById("LoginModal").style.display = "inline";}
+    
+});
+
+
+    </script>
+
+</body>
+</html>
+
+</html>

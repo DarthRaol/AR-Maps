@@ -12,12 +12,12 @@
       <img src="../img/logo.svg" style="size:2rem;" alt="ARKS Logo">
     </div>
     
-    <h1>WHERE’S MY <span>ARKS</span></h1>
+    <h1>WHERE’S THE <br><span>ARKS</span> STUDIO?</h1>
 
     <p class="subtitle">Follow these steps and let the game begin!</p>
 
       <ul >
-          <li>Choose one out of the four pins you think is the right location of the <span>ARKS Studio.</span></li>
+          <li>Choose one out of the four pins you think is the right location of the ARKS Studio.</li>
           <li>Follow the map and the instructions to navigate to your selected pin location.</li>
           <li>Once you are near the location, a pop-up with an audio message from Ranbir will guide you to the next step.</li>
           <li>If you are at the right location, you’ll be guided by our notification and you can just turn on your camera to complete the last step of your journey.</li>
@@ -26,10 +26,40 @@
       </ul>
       <p class = "IntroductionReady">You Ready?</p>
 
-    <button class = "GameOnButton" onclick="location.href='Map.html'">I Am Ready</button>
+    <button class = "GameOnButton" id="ReadyButt">I Am Ready</button>
   </div>
+  <div class="modal" id="nextStepButton">
 
-  <script src="../script.js"></script>
+    
+
+    <div class="modal-content">
+      
+      <h1>Become an ARKS VIP!<br><span>Let’s go!</span> </h1>
+      <div class="modal-body">
+        
+      </div>
+      <div class="modal-footer">
+        
+      </div>
+    </div>
+  </div>
+  <script>
+    document.getElementById("nextStepButton").style.display = "none";
+    document.addEventListener("DOMContentLoaded", function () {
+      document.getElementById("ReadyButt").addEventListener("click", function () {
+        // Hide the container
+        document.querySelector(".container").style.display = "none";
+        
+        // Show the modal
+        document.getElementById("nextStepButton").style.display = "inline";
+  
+        // Redirect to map.html after 7 seconds
+        setTimeout(function () {
+          window.location.href = "Map.html";
+        }, 7000);
+      });
+    });
+  </script>
 
 </body>
 
