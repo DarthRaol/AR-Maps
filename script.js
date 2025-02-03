@@ -122,7 +122,7 @@ const rahulMarker = new mapboxgl.Marker(locationDiv[4])
 .addTo(map);
 
 locationDiv[4].addEventListener('click', () => {
-    DisableMarkers(3);
+    DisableMarkers(4);
     directions.setDestination([72.85544183423875, 19.257752987325663]);
 });
 
@@ -205,11 +205,11 @@ function GetUserLocation(){
                 if(canHotCold)
                     ClosureToStore(currentUserLocation[0], currentUserLocation[1], currentTolerance)
 
-                map.flyTo({
-                    center: [72.8840, 19.0753], // New center coordinates
-                    zoom: 10, // starting zoom
-                    speed: 1.2,                    // Animation speed (default: 1.2)
-                  }); 
+                // map.flyTo({
+                //     center: [72.8840, 19.0753], // New center coordinates
+                //     zoom: 10, // starting zoom
+                //     speed: 1.2,                    // Animation speed (default: 1.2)
+                //   }); 
                 console.log(currentUserLocation + " curr is after");
 
             },
