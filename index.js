@@ -63,3 +63,10 @@ function hideButton() {
     document.getElementById("modal-body").innerHTML = InnerText;
 
   }
+
+
+  function VoucherResult(bIsUserTop100,VoucherCode){
+    document.getElementById(bIsUserTop100?"Above100":"Top100").style.display = "none";
+    if(bIsUserTop100)
+        document.getElementById("Voucher").innerHTML = VoucherCode;
+  } 

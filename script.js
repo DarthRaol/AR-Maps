@@ -5,7 +5,14 @@ var invalidLocations = [[72.83319, 19.06456], [72.82231, 19.04669], [72.82231, 1
 
 const allAudio = [new Audio('../audio/intro.wav')]
 
+const audioSource = document.getElementById("AudioSource");
+
+var invalidLocations = [[72.83319, 19.06456], [72.82231, 19.04669], [72.82231, 19.04669], [72.83442, 19.06039]]
+
+var calledIntro = false;
+
 const hotcold = document.getElementById("HotColdIndicator");
+var canHotCold = true;
 if(hotcold)
     hotcold.style.display = 'none';
 
@@ -41,7 +48,13 @@ mapElement.addEventListener('click', () => {
     mapElement.style.height = '90vh';
     mapElement.style.width = '100wh'
     map.resize();
-    //PlayAudio(0);
+    //hasReached(72.83442, 19.06039, 0.0001)
+    //ClosureToStore(73.83442, 29.06039, currentTolerance);
+    if(!calledIntro)
+    {
+        PlayAudio("../audio/intro.wav");
+        calledIntro = true;
+    }
 });
 
 //User marker style
@@ -105,17 +118,36 @@ locationDiv[3].addEventListener('click', () => {
     directions.setDestination([72.82182527116375, 19.05925964768773]);
 });
 
+function removeDefaultMarkers() {
+    console.log("called on clock");
+    const markers = document.querySelectorAll('.mapboxgl-marker');
+    markers.forEach(marker => {
+        if (marker.innerHTML.includes('A') || marker.innerHTML.includes('B')) {
+            marker.style.display = 'none'; // Hides the marker
+        }
+    });
+}
+
 const directions = new MapboxDirections({
 accessToken: mapboxgl.accessToken,
 unit: 'metric', // Units: 'imperial' or 'metric'
 profile: 'mapbox/driving', // Routing profile: driving, walking, cycling
 addMarkers: false, // Disable the start and end markers
 interactive: false,
+marker: false // Disable default A & B markers
 });
 map.addControl(directions, 'top-left');
 const directionsContainer = document.querySelector('.mapboxgl-ctrl-directions');
 directionsContainer.style.display = "none";
+                
+directions.setOrigin([72.8840, 19.0753]); //19.082685132964084, 72.91854103288533
 
+directions.on('route', (event) => {
+    if (event.route.length) {
+        setTimeout(removeDefaultMarkers, 500); // Delay to ensure markers are rendered before removal
+        console.log("on route")
+    }
+});
 // Wait for the map to load
 map.on('load', () => {
     // Listen for when a route is rendered
@@ -142,6 +174,8 @@ map.on('load', () => {
         if (map.getLayer(DirectionId)) {
             map.setLayoutProperty('directions-origin-point', 'visibility', 'none');
             map.setLayoutProperty('directions-destination-point', 'visibility', 'none');
+            map.setLayoutProperty('directions-destination-label', 'visibility', 'none');
+            map.setLayoutProperty('directions-origin-label', 'visibility', 'none');
         }
     });
 });
@@ -159,8 +193,9 @@ function GetUserLocation(){
                 directions.setOrigin(currentUserLocation); //19.082685132964084, 72.91854103288533
                 
                 console.log(currentUserLocation + "curr is ");
-                //hasReached(currentUserLocation[0], currentUserLocation[1], 0.00001)
-                //ClosureToStore(currentUserLocation[0], currentUserLocation[1], currentTolerance)
+                hasReached(currentUserLocation[0], currentUserLocation[1], 0.00001)
+                if(!canHotCold)
+                    ClosureToStore(currentUserLocation[0], currentUserLocation[1], currentTolerance)
 
                 map.flyTo({
                     center: [72.8840, 19.0753], // New center coordinates
@@ -187,6 +222,7 @@ function GetUserLocation(){
     setTimeout(GetUserLocation, 3000);
 }
 
+var invalidCount = 0;
 function hasReached(currentLat, currentLng, tolerance = 0.0001) 
 {
     invalidLocations.forEach(location => 
@@ -197,14 +233,35 @@ function hasReached(currentLat, currentLng, tolerance = 0.0001)
 
         if (latDiff <= tolerance && lngDiff <= tolerance) 
         {
-            if(location == [72.83442, 19.06039])
+            if(location[0] === 72.83442 && location[1] === 19.06039)
             {
                 console.log("You have reached the main target location!");
                 document.getElementById("CorrectLocationModal").style.display = 'block';
+                PlayAudio("../audio/CorrectLocation.wav");
                 return true;
             }
             console.log("You have reached the invalid target location!");
+            
             document.getElementById("WrongLocationModal").style.display = 'block';
+            switch(invalidCount)
+            {
+                case 0:
+                    PlayAudio("../audio/WrongLocation.wav");
+                    invalidCount++;
+                    break;
+                case 1:
+                    PlayAudio("../audio/WrongLocation2.wav");
+                    invalidCount++;
+                    break;
+                case 2:
+                    PlayAudio("../audio/WrongLocation.wav");
+                    invalidCount++;
+                    break;
+                default:
+                    PlayAudio("../audio/WrongLocation.wav");
+                    invalidCount = 0;
+                    break;
+            }
             return true;
         }
         else 
@@ -219,20 +276,31 @@ function hasReached(currentLat, currentLng, tolerance = 0.0001)
 function ClosureToStore(currentLat, currentLng, tolerance) 
 {
     const latDiff = Math.abs(currentLat - 72.83442);
-    const lngDiff = Math.abs(currentLng - 72.83442);
+    const lngDiff = Math.abs(currentLng - 19.06039);
 
-    if (latDiff <= tolerance && lngDiff <= tolerance) 
+
+    if (latDiff < tolerance && lngDiff < tolerance) 
     {
         hotcold.style.display = 'block';
         currentTolerance = latDiff;
         hotcold.children[0].classList.remove('Cold');
-        hotcold.children[0].classList.add('Hot')
+        hotcold.children[0].classList.add('Hot');
+        canHotCold = false;
+        setTimeout(() => {canHotCold = true;
+            hotcold.style.display = 'none';
+        }, 15000);
+        PlayAudio("../audio/hot.wav");
     }
     else if (latDiff >= tolerance && lngDiff >= tolerance && latDiff <= tolerance + 0.00001 && lngDiff <= tolerance + 0.00001) 
     {
         hotcold.style.display = 'block';
         hotcold.children[0].classList.remove('Hot');
-        hotcold.children[0].classList.add('Cold')
+        hotcold.children[0].classList.add('Cold');
+        canHotCold = false;
+        setTimeout(() => {canHotCold = true;
+        hotcold.style.display = 'none';
+        }, 15000);
+        PlayAudio("../audio/cold.wav");
     }
     else
     {
@@ -266,7 +334,7 @@ document.getElementsByClassName('retryBtn')[0].addEventListener('click', () => {
 });
 
 document.getElementsByClassName('ar-start')[0].addEventListener('click', () => {
-    window.location.href = 'https://darthraol.github.io/AR-Maps/pages/Intro.html';
+    window.location.href = 'https://arksarexperience.vercel.app';
 });
 
 function generate4DigitCode(input) {
@@ -282,10 +350,11 @@ function generate4DigitCode(input) {
   return code;
 }
 
-function PlayAudio(index)
+function PlayAudio(source)
 {
-    allAudio[index].play();
-    console.log("called");
+    audioSource.src = source;
+    audioSource.load();
+    audioSource.play();
 }
 
 
