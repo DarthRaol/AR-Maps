@@ -6,11 +6,13 @@ const allAudio = [new Audio('../audio/intro.wav')]
 
 const audioSource = document.getElementById("AudioSource");
 
-var invalidLocations = [[72.83319, 19.06456], [72.82231, 19.04669], [72.82231, 19.04669], [72.83442, 19.06039], [72.91773924379169, 19.081871273584955]]
+var invalidLocations = [[72.83319, 19.06456], [72.82231, 19.04669], [72.82231, 19.04669], [72.83442, 19.06039], [72.87679189803636, 19.03592953676477], [72.87595138748964, 19.036074150820234]]
 
 var calledIntro = false;
 
 var locationReached = true;
+
+var enteredHot = false;
 
 const hotcold = document.getElementById("HotColdIndicator");
 var canHotCold = true;
@@ -67,7 +69,7 @@ mainMarkerIcon.style.height = `60px`;
 mainMarkerIcon.style.backgroundSize = '100%';
 
 var locationDiv = []
-for(let i = 0; i < 5; i++)
+for(let i = 0; i < 6; i++)
 {
     locationMarker = document.createElement('div');
     locationMarker.className = 'marker';
@@ -120,12 +122,21 @@ locationDiv[3].addEventListener('click', () => {
 });
 
 const rahulMarker = new mapboxgl.Marker(locationDiv[4])
-.setLngLat([72.85544183423875, 19.257752987325663]) // Marker in carter road
+.setLngLat([72.87679189803636, 19.03592953676477]) // Marker in carter road
 .addTo(map);
 
 locationDiv[4].addEventListener('click', () => {
     DisableMarkers(4);
-    directions.setDestination([72.85544183423875, 19.257752987325663]);
+    directions.setDestination([72.87679189803636, 19.03592953676477]);
+});
+
+const officeMarker = new mapboxgl.Marker(locationDiv[5])
+.setLngLat([72.87595138748964, 19.036074150820234]) // Marker in carter road
+.addTo(map);
+
+locationDiv[5].addEventListener('click', () => {
+    DisableMarkers(5);
+    directions.setDestination([72.87595138748964, 19.036074150820234]);
 });
 
 function removeDefaultMarkers() {
@@ -347,6 +358,7 @@ function ClosureToStore(currentLat, currentLng)
 
     if(closestDistance >= currDistance)
     {
+        enteredHot = true;
         closestDistance = currDistance;
         hotcold.style.display = 'block';
         hotcold.children[0].classList.remove('Cold');
@@ -357,7 +369,7 @@ function ClosureToStore(currentLat, currentLng)
         }, 15000);
         PlayAudio("../audio/hot.wav");
     }
-    else if(closestDistance <= currDistance && currDistance <= closestDistance + 20)
+    else if(closestDistance <= currDistance && currDistance <= closestDistance + 20 && enteredHot)
     {
         hotcold.style.display = 'block';
         hotcold.children[0].classList.remove('Hot');
@@ -370,6 +382,8 @@ function ClosureToStore(currentLat, currentLng)
     }
     else
     {
+        enteredHot = false;
+        closestDistance = 40;
         hotcold.style.display = 'none';
     }
 
