@@ -45,12 +45,12 @@ mapElement.addEventListener('click', () => {
     }
 });
 
-// document.getElementById("smallScreen").addEventListener('click', () => {
-//     map.flyTo({
-//         center: [72.83020389574983, 19.060727925746235],
-//         zoom: 12
-//     });
-// });
+document.getElementById("smallScreen").addEventListener('click', () => {
+    map.flyTo({
+        center: [72.83020389574983, 19.060727925746235],
+        zoom: 12
+        });
+});
 
 //User marker style
 const mainMarkerIcon = document.createElement('div');
@@ -316,8 +316,6 @@ function hasReached(currentLat, currentLng)
 function ClosureToStore(currentLat, currentLng) 
 {
     var currDistance = checkProximity([currentLat, currentLng], invalidLocations[0]);
-
-    document.getElementById("locationdebug").innerHTML = "Current distance " + currDistance;
 
     if(closestDistance >= currDistance)
     {
