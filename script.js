@@ -235,7 +235,7 @@ function hasReached(currentLat, currentLng)
         if(currDistance < 20)
         {
             locationReached = false;
-            if(location === invalidLocations[0])
+            if(currentLocationToReach === invalidLocations[0])
             {
                 console.log("You have reached the main target location!");
                 document.getElementById("CorrectLocationModal").style.display = 'block';
