@@ -1,9 +1,11 @@
 var closestDistance = 40;
 var invalidCount = 0;
 var calledIntro = false;
-var locationReached = true;
+var locationReached = false;
 var enteredHot = false;
 var canHotCold = true;
+
+var currentLocationToReach;
 
 // main //link road // carter road //  Mount mery 
 var invalidLocations = [[72.83441586635318, 19.060396215930364], [72.83317652944778, 19.064512598679855], [72.82183514931508, 19.059149582832017], [72.82217957369458, 19.04654194640622]]
@@ -228,9 +230,7 @@ function checkProximity(userCoords, targetLocation) {
 
 function hasReached(currentLat, currentLng) 
 {
-    invalidLocations.forEach(location => 
-        {
-        var currDistance = checkProximity([currentLat, currentLng], location);
+        var currDistance = checkProximity([currentLat, currentLng], currentLocationToReach);
 
         if(currDistance < 20)
         {
@@ -264,8 +264,8 @@ function hasReached(currentLat, currentLng)
                     invalidCount = 0;
                     break;
             }
-
-            invalidLocations[invalidLocations.indexOf(location)] = null;
+            removeItemOnce(invalidLocations, location);
+            //invalidLocations[invalidLocations.indexOf(location)] = null;
             console.log(invalidLocations.length + " lenght after removal");
             return true;
         }
@@ -316,9 +316,7 @@ function hasReached(currentLat, currentLng)
         // {
         //     console.log("You have not reached the target location.");
         //     return false;
-        // }
-    });
-    
+        // }    
 }
 
 function ClosureToStore(currentLat, currentLng) 
@@ -400,9 +398,10 @@ function DisableMarkers(index)
             locationDiv[i].style.display = 'none';
         }
         locationDiv[index].style.backgroundImage = `url('../img/logo-greyed.png')`;
-        locationDiv[index].onclick = 'none';
-        
+        locationDiv[index].onclick = null;
     }
+    locationReached = true;
+    currentLocationToReach = invalidLocations[index];
 }
 
 function EnableMarkers()
