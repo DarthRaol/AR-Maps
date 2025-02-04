@@ -34,7 +34,7 @@ mapElement.addEventListener('click', () => {
             element.style.display = 'none';
     }
     
-    mapElement.style.height = '90vh';
+    mapElement.style.height = '80vh';
     mapElement.style.width = '100wh'
     map.resize();
 
