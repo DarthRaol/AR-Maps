@@ -265,6 +265,7 @@ function hasReached(currentLat, currentLng)
                     break;
             }
             invalidLocations = removeItemOnce(invalidLocations, location);
+            document.getElementById("locationdebug").innerHTML = invalidLocations.length + " removed value is " + location;
             //invalidLocations[invalidLocations.indexOf(location)] = null;
             console.log(invalidLocations.length + " lenght after removal");
             return true;
@@ -400,6 +401,8 @@ function DisableMarkers(index)
         locationDiv[index].style.backgroundImage = `url('../img/logo-greyed.png')`;
         locationDiv[index].onclick = null;
     }
+    document.getElementById("locationdebug").innerHTML = invalidLocations.length + " removed value is " + invalidLocations[index];
+
     locationReached = true;
     currentLocationToReach = invalidLocations[index];
 }
