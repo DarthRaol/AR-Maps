@@ -3,7 +3,7 @@ var invalidCount = 0;
 var calledIntro = false;
 var locationReached = false;
 var enteredHot = false;
-var canHotCold = true;
+var canHotCold = false;
 
 var currentLocationToReach;
 
@@ -78,6 +78,7 @@ const mainMarker = new mapboxgl.Marker(locationDiv[0])
 locationDiv[0].addEventListener('click', () => {
     directions.setDestination(invalidLocations[0]);
     DisableMarkers(0);
+    canHotCold = true;
 });
 
 const linkingRoadMarker = new mapboxgl.Marker(locationDiv[1])
