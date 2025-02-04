@@ -80,31 +80,31 @@ locationDiv[0].addEventListener('click', () => {
     DisableMarkers(0);
 });
 
-const mountMaryMarker = new mapboxgl.Marker(locationDiv[1])
-.setLngLat(invalidLocations[3]) // Marker in Mount Mary
+const linkingRoadMarker = new mapboxgl.Marker(locationDiv[1])
+.setLngLat(invalidLocations[1]) // Marker in linking road
 .addTo(map);
 
 locationDiv[1].addEventListener('click', () => {
     DisableMarkers(1);
-    directions.setDestination(invalidLocations[3]);
+    directions.setDestination(invalidLocations[1]);
 });
 
-const linkingRoadMarker = new mapboxgl.Marker(locationDiv[2])
-.setLngLat(invalidLocations[1]) // Marker in linking road
+const mountMaryMarker = new mapboxgl.Marker(locationDiv[2])
+.setLngLat(invalidLocations[2]) // Marker in Mount Mary
 .addTo(map);
 
 locationDiv[2].addEventListener('click', () => {
     DisableMarkers(2);
-    directions.setDestination(invalidLocations[1]);
+    directions.setDestination(invalidLocations[2]);
 });
 
 const carterRoadMarker = new mapboxgl.Marker(locationDiv[3])
-.setLngLat(invalidLocations[2]) // Marker in carter road
+.setLngLat(invalidLocations[3]) // Marker in carter road
 .addTo(map);
 
 locationDiv[3].addEventListener('click', () => {
     DisableMarkers(3);
-    directions.setDestination(invalidLocations[2]);
+    directions.setDestination(invalidLocations[3]);
 });
 
 function removeDefaultMarkers() {
@@ -406,12 +406,10 @@ function DisableMarkers(index)
 
 function EnableMarkers()
 {
-    locationReached = true;
     for (let i = 0; i < locationDiv.length; i++) {
             locationDiv[i].style.display = 'block';
     }
     directions.removeRoutes();
-
 }
 
 document.getElementsByClassName('retryBtn')[0].addEventListener('click', () => {
