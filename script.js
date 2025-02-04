@@ -45,9 +45,12 @@ mapElement.addEventListener('click', () => {
     }
 });
 
-document.getElementById("smallScreen").addEventListener('click', () => {
-
-});
+// document.getElementById("smallScreen").addEventListener('click', () => {
+//     map.flyTo({
+//         center: [72.83020389574983, 19.060727925746235],
+//         zoom: 12
+//     });
+// });
 
 //User marker style
 const mainMarkerIcon = document.createElement('div');
