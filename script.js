@@ -45,12 +45,7 @@ mapElement.addEventListener('click', () => {
     }
 });
 
-document.getElementById("smallScreen").addEventListener('click', () => {
-    map.flyTo({
-        center: [72.83020389574983, 19.060727925746235],
-        zoom: 12
-        });
-});
+
 
 //User marker style
 const mainMarkerIcon = document.createElement('div');
@@ -409,6 +404,10 @@ function EnableMarkers()
 document.getElementsByClassName('retryBtn')[0].addEventListener('click', () => {
     EnableMarkers();
     document.getElementById("WrongLocationModal").style.display = 'none';
+    map.flyTo({
+        center: [72.83020389574983, 19.060727925746235],
+        zoom: 12
+        });
 });
 
 document.getElementsByClassName('ar-start')[0].addEventListener('click', () => {
