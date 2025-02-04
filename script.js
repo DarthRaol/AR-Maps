@@ -232,7 +232,7 @@ function hasReached(currentLat, currentLng)
         {
         var currDistance = checkProximity([currentLat, currentLng], location);
 
-        if(currDistance < 10)
+        if(currDistance < 20)
         {
             locationReached = false;
             if(location === invalidLocations[0])
