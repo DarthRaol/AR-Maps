@@ -188,10 +188,14 @@ function GetUserLocation(){
                 //invalidLocations.push(currentUserLocation);
 
                 if(canHotCold)
+                {
                     ClosureToStore(currentUserLocation[0], currentUserLocation[1])
+                }
                 
                 if(locationReached)
+                {
                     hasReached(currentUserLocation[0], currentUserLocation[1])
+                }
 
                 // map.flyTo({
                 //     center: [72.8840, 19.0753], // New center coordinates
@@ -265,7 +269,6 @@ function hasReached(currentLat, currentLng)
                     break;
             }
             invalidLocations = removeItemOnce(invalidLocations, location);
-            document.getElementById("locationdebug").innerHTML = invalidLocations.length + " removed value is " + location;
             //invalidLocations[invalidLocations.indexOf(location)] = null;
             console.log(invalidLocations.length + " lenght after removal");
             return true;
@@ -323,6 +326,8 @@ function hasReached(currentLat, currentLng)
 function ClosureToStore(currentLat, currentLng) 
 {
     var currDistance = checkProximity([currentLat, currentLng], invalidLocations[0]);
+
+    document.getElementById("locationdebug").innerHTML = "Current distance " + currDistance;
 
     if(closestDistance >= currDistance)
     {
@@ -401,8 +406,6 @@ function DisableMarkers(index)
         locationDiv[index].style.backgroundImage = `url('../img/logo-greyed.png')`;
         locationDiv[index].onclick = null;
     }
-    document.getElementById("locationdebug").innerHTML = invalidLocations.length + " removed value is " + invalidLocations[index];
-
     locationReached = true;
     currentLocationToReach = invalidLocations[index];
 }
