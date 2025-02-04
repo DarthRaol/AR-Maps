@@ -264,7 +264,7 @@ function hasReached(currentLat, currentLng)
                     invalidCount = 0;
                     break;
             }
-            removeItemOnce(invalidLocations, location);
+            invalidLocations = removeItemOnce(invalidLocations, location);
             //invalidLocations[invalidLocations.indexOf(location)] = null;
             console.log(invalidLocations.length + " lenght after removal");
             return true;
