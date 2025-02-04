@@ -1,5 +1,4 @@
 var closestDistance = 40;
-var invalidCount = 0;
 var calledIntro = false;
 var locationReached = false;
 var enteredHot = false;
@@ -44,6 +43,10 @@ mapElement.addEventListener('click', () => {
         PlayAudio("../audio/intro.wav");
         calledIntro = true;
     }
+});
+
+document.getElementById("smallScreen").addEventListener('click', () => {
+
 });
 
 //User marker style
@@ -250,25 +253,8 @@ function hasReached(currentLat, currentLng)
             console.log("You have reached the invalid target location!");
             
             document.getElementById("WrongLocationModal").style.display = 'block';
-            switch(invalidCount)
-            {
-                case 0:
-                    PlayAudio("../audio/WrongLocation.wav");
-                    invalidCount++;
-                    break;
-                case 1:
-                    PlayAudio("../audio/WrongLocation2.wav");
-                    invalidCount++;
-                    break;
-                case 2:
-                    PlayAudio("../audio/WrongLocation.wav");
-                    invalidCount++;
-                    break;
-                default:
-                    PlayAudio("../audio/WrongLocation.wav");
-                    invalidCount = 0;
-                    break;
-            }
+            PlayAudio("../audio/WrongLocation.wav");
+
             invalidLocations = removeItemOnce(invalidLocations, location);
             //invalidLocations[invalidLocations.indexOf(location)] = null;
             console.log(invalidLocations.length + " lenght after removal");
