@@ -1,33 +1,26 @@
-//linking road, mount mary, Carter road and main spot 72.82381059620167,19.14447093225438curr
-var narkerIndex;
 var closestDistance = 40;
+var invalidCount = 0;
+var calledIntro = false;
+var locationReached = true;
+var enteredHot = false;
+var canHotCold = true;
 
-const allAudio = [new Audio('../audio/intro.wav')]
+// main //link road // carter road //  Mount mery 
+var invalidLocations = [[72.83441586635318, 19.060396215930364], [72.83317652944778, 19.064512598679855], [72.82183514931508, 19.059149582832017], [72.82217957369458, 19.04654194640622]]
 
 const audioSource = document.getElementById("AudioSource");
 
-//link road // carter road //     // main
-var invalidLocations = [[72.83317652944778, 19.064512598679855], [72.82183514931508, 19.059149582832017], [72.82217957369458, 19.04654194640622], [72.83441586635318, 19.060396215930364]]
-
-var calledIntro = false;
-
-var locationReached = true;
-
-var enteredHot = false;
-
 const hotcold = document.getElementById("HotColdIndicator");
-var canHotCold = true;
-if(hotcold)
-    hotcold.style.display = 'none';
+hotcold.style.display = 'none';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZmFraHIiLCJhIjoiY2pseXc0djE0MHBibzN2b2h4MzVoZjk4aSJ9.ImbyLtfsfSsR_yyBluR8yQ';
     
 const map = new mapboxgl.Map({
-    container: 'map', // container id
-    style: 'mapbox://styles/mapbox/light-v11', //hosted style id //default mapbox://styles/mapbox/streets-v12
-    center: [72.83020389574983, 19.060727925746235], // starting position 19.060727925746235, 72.83020389574983
-    zoom: 12, // starting zoom
-    minZoom: 10 // keep it local
+    container: 'map', 
+    style: 'mapbox://styles/mapbox/light-v11',
+    center: [72.83020389574983, 19.060727925746235],
+    zoom: 12,
+    minZoom: 10
 });
 
 const mapElement = document.getElementById("parentmap");
@@ -77,39 +70,39 @@ const currentUserMarker = new mapboxgl.Marker(mainMarkerIcon)
 .addTo(map);
     
 const mainMarker = new mapboxgl.Marker(locationDiv[0])
-.setLngLat(invalidLocations[3]) // main
+.setLngLat(invalidLocations[0]) // main
 .addTo(map);
 
 locationDiv[0].addEventListener('click', () => {
-    directions.setDestination(invalidLocations[3]);
+    directions.setDestination(invalidLocations[0]);
     DisableMarkers(0);
 });
 
 const mountMaryMarker = new mapboxgl.Marker(locationDiv[1])
-.setLngLat(invalidLocations[2]) // Marker in Mount Mary
+.setLngLat(invalidLocations[3]) // Marker in Mount Mary
 .addTo(map);
 
 locationDiv[1].addEventListener('click', () => {
     DisableMarkers(1);
-    directions.setDestination(invalidLocations[2]);
+    directions.setDestination(invalidLocations[3]);
 });
 
 const linkingRoadMarker = new mapboxgl.Marker(locationDiv[2])
-.setLngLat(invalidLocations[0]) // Marker in linking road
+.setLngLat(invalidLocations[1]) // Marker in linking road
 .addTo(map);
 
 locationDiv[2].addEventListener('click', () => {
     DisableMarkers(2);
-    directions.setDestination(invalidLocations[0]);
+    directions.setDestination(invalidLocations[1]);
 });
 
 const carterRoadMarker = new mapboxgl.Marker(locationDiv[3])
-.setLngLat(invalidLocations[1]) // Marker in carter road
+.setLngLat(invalidLocations[2]) // Marker in carter road
 .addTo(map);
 
 locationDiv[3].addEventListener('click', () => {
     DisableMarkers(3);
-    directions.setDestination(invalidLocations[1]);
+    directions.setDestination(invalidLocations[2]);
 });
 
 function removeDefaultMarkers() {
@@ -182,9 +175,6 @@ map.on('load', () => {
 });
 
 function GetUserLocation(){
-    // do whatever you like here
-
-
     if ('geolocation' in navigator) {
         navigator.geolocation.watchPosition(
             (position) => 
@@ -225,7 +215,6 @@ function GetUserLocation(){
 
     setTimeout(GetUserLocation, 3000);
 }
-
 // Function to check if user reached target location
 function checkProximity(userCoords, targetLocation) {
     const userPoint = turf.point(userCoords);
@@ -237,7 +226,6 @@ function checkProximity(userCoords, targetLocation) {
     return distance.toFixed(2);
 }
 
-var invalidCount = 0;
 function hasReached(currentLat, currentLng) 
 {
     invalidLocations.forEach(location => 
@@ -247,7 +235,7 @@ function hasReached(currentLat, currentLng)
         if(currDistance < 10)
         {
             locationReached = false;
-            if(location === invalidLocations[3])
+            if(location === invalidLocations[0])
             {
                 console.log("You have reached the main target location!");
                 document.getElementById("CorrectLocationModal").style.display = 'block';
@@ -277,7 +265,7 @@ function hasReached(currentLat, currentLng)
                     break;
             }
 
-            invalidLocations.pop(location);
+            invalidLocations[invalidLocations.indexOf(location)] = null;
             console.log(invalidLocations.length + " lenght after removal");
             return true;
         }
@@ -335,7 +323,7 @@ function hasReached(currentLat, currentLng)
 
 function ClosureToStore(currentLat, currentLng) 
 {
-    var currDistance = checkProximity([currentLat, currentLng], invalidLocations[3]);
+    var currDistance = checkProximity([currentLat, currentLng], invalidLocations[0]);
 
     if(closestDistance >= currDistance)
     {
@@ -406,7 +394,6 @@ function ClosureToStore(currentLat, currentLng)
 
 function DisableMarkers(index)
 {
-    narkerIndex = index;
     for (let i = 0; i < locationDiv.length; i++) {
         if(i != index)
         {
@@ -427,6 +414,7 @@ function EnableMarkers()
     directions.removeRoutes();
 
 }
+
 document.getElementsByClassName('retryBtn')[0].addEventListener('click', () => {
     EnableMarkers();
     document.getElementById("WrongLocationModal").style.display = 'none';
@@ -455,5 +443,13 @@ function PlayAudio(source)
     audioSource.load();
     audioSource.play();
 }
+
+function removeItemOnce(arr, value) {
+    var index = arr.indexOf(value);
+    if (index > -1) {
+      arr.splice(index, 1);
+    }
+    return arr;
+  }
 
 
