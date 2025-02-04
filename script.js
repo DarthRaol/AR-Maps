@@ -356,7 +356,7 @@ function ClosureToStore(currentLat, currentLng)
     }
     else
     {
-        canHotCold = false;
+        canHotCold = true;
         enteredHot = false;
         closestDistance = 40;
         hotcold.style.display = 'none';
