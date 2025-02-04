@@ -7,8 +7,7 @@ const allAudio = [new Audio('../audio/intro.wav')]
 const audioSource = document.getElementById("AudioSource");
 
 //link road // carter road //     // main
-//var invalidLocations = [[72.83317652944778, 19.064512598679855], [72.82183514931508, 19.059149582832017], [72.82217957369458, 19.04654194640622], [72.83441586635318, 19.060396215930364]]
-var invalidLocations = [[72.91751514622162, 19.081023047447346], [72.91797280170951, 19.081750954335934]] // [72.91898856670213, 19.08274711957367]
+var invalidLocations = [[72.83317652944778, 19.064512598679855], [72.82183514931508, 19.059149582832017], [72.82217957369458, 19.04654194640622], [72.83441586635318, 19.060396215930364]]
 
 var calledIntro = false;
 
@@ -32,16 +31,7 @@ const map = new mapboxgl.Map({
 });
 
 const mapElement = document.getElementById("parentmap");
-mapElement.addEventListener('click', () => {
-    // if (mapElement.requestFullscreen) {
-    //     mapElement.requestFullscreen();
-    //   } else if (mapElement.mozRequestFullScreen) { // Firefox
-    //     mapElement.mozRequestFullScreen();
-    //   } else if (mapElement.webkitRequestFullscreen) { // Safari and Chrome
-    //     mapElement.webkitRequestFullscreen();
-    //   } else if (mapElement.msRequestFullscreen) { // IE/Edge
-    //     mapElement.msRequestFullscreen();
-    //   }    
+mapElement.addEventListener('click', () => {  
     GetUserLocation();
     const allNonScreenItem = document.getElementsByClassName("fullscreen");
 
@@ -53,8 +43,7 @@ mapElement.addEventListener('click', () => {
     mapElement.style.height = '90vh';
     mapElement.style.width = '100wh'
     map.resize();
-    //hasReached(72.83442, 19.06039, 0.0001)
-    //ClosureToStore(73.83442, 29.06039, currentTolerance);
+
     if(!calledIntro)
     {
         PlayAudio("../audio/intro.wav");
@@ -71,7 +60,7 @@ mainMarkerIcon.style.height = `60px`;
 mainMarkerIcon.style.backgroundSize = '100%';
 
 var locationDiv = []
-for(let i = 0; i < 2; i++)
+for(let i = 0; i < 4; i++)
 {
     locationMarker = document.createElement('div');
     locationMarker.className = 'marker';
@@ -88,40 +77,40 @@ const currentUserMarker = new mapboxgl.Marker(mainMarkerIcon)
 .addTo(map);
     
 const mainMarker = new mapboxgl.Marker(locationDiv[0])
-.setLngLat(invalidLocations[0]) // main
+.setLngLat(invalidLocations[3]) // main
 .addTo(map);
 
 locationDiv[0].addEventListener('click', () => {
-    directions.setDestination(invalidLocations[0]);
+    directions.setDestination(invalidLocations[3]);
     DisableMarkers(0);
 });
 
 const mountMaryMarker = new mapboxgl.Marker(locationDiv[1])
-.setLngLat(invalidLocations[1]) // Marker in Mount Mary
+.setLngLat(invalidLocations[2]) // Marker in Mount Mary
 .addTo(map);
 
 locationDiv[1].addEventListener('click', () => {
     DisableMarkers(1);
-    directions.setDestination(invalidLocations[1]);
+    directions.setDestination(invalidLocations[2]);
 });
 
-// const linkingRoadMarker = new mapboxgl.Marker(locationDiv[2])
-// .setLngLat([72.83317652944778, 19.064512598679855]) // Marker in linking road
-// .addTo(map);
+const linkingRoadMarker = new mapboxgl.Marker(locationDiv[2])
+.setLngLat(invalidLocations[0]) // Marker in linking road
+.addTo(map);
 
-// locationDiv[2].addEventListener('click', () => {
-//     DisableMarkers(2);
-//     directions.setDestination([72.83317652944778, 19.064512598679855]);
-// });
+locationDiv[2].addEventListener('click', () => {
+    DisableMarkers(2);
+    directions.setDestination(invalidLocations[0]);
+});
 
-// const carterRoadMarker = new mapboxgl.Marker(locationDiv[3])
-// .setLngLat([72.82183514931508, 19.059149582832017]) // Marker in carter road
-// .addTo(map);
+const carterRoadMarker = new mapboxgl.Marker(locationDiv[3])
+.setLngLat(invalidLocations[1]) // Marker in carter road
+.addTo(map);
 
-// locationDiv[3].addEventListener('click', () => {
-//     DisableMarkers(3);
-//     directions.setDestination([72.82183514931508, 19.059149582832017]);
-// });
+locationDiv[3].addEventListener('click', () => {
+    DisableMarkers(3);
+    directions.setDestination(invalidLocations[1]);
+});
 
 function removeDefaultMarkers() {
     console.log("called on clock");
@@ -258,7 +247,7 @@ function hasReached(currentLat, currentLng)
         if(currDistance < 10)
         {
             locationReached = false;
-            if(location === invalidLocations[0])
+            if(location === invalidLocations[3])
             {
                 console.log("You have reached the main target location!");
                 document.getElementById("CorrectLocationModal").style.display = 'block';
@@ -346,7 +335,7 @@ function hasReached(currentLat, currentLng)
 
 function ClosureToStore(currentLat, currentLng) 
 {
-    var currDistance = checkProximity([currentLat, currentLng], invalidLocations[0]);
+    var currDistance = checkProximity([currentLat, currentLng], invalidLocations[3]);
 
     if(closestDistance >= currDistance)
     {
@@ -436,6 +425,7 @@ function EnableMarkers()
             locationDiv[i].style.display = 'block';
     }
     directions.removeRoutes();
+
 }
 document.getElementsByClassName('retryBtn')[0].addEventListener('click', () => {
     EnableMarkers();
