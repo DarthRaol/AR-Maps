@@ -133,13 +133,20 @@ function removeDefaultMarkers() {
 }
 
 const directions = new MapboxDirections({
-accessToken: mapboxgl.accessToken,
-unit: 'metric', // Units: 'imperial' or 'metric'
-profile: 'mapbox/driving', // Routing profile: driving, walking, cycling
-addMarkers: false, // Disable the start and end markers
-interactive: false,
-marker: false // Disable default A & B markers
+    accessToken: mapboxgl.accessToken,
+    unit: 'metric', // Units: 'imperial' or 'metric'
+    profile: 'mapbox/driving', // Routing profile: driving, walking, cycling
+    addMarkers: false, // Disable the start and end markers
+    interactive: false,
+    marker: false, // Disable default A & B markers
+    flyTo: false // Disables automatic panning to fit the route
+    }
+);
+
+directions.on('origin', () => {
+    map.jumpTo({ center: map.getCenter(), zoom: map.getZoom() });
 });
+
 map.addControl(directions, 'top-left');
 const directionsContainer = document.querySelector('.mapboxgl-ctrl-directions');
 directionsContainer.style.display = "none";
