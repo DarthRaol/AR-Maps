@@ -3,11 +3,12 @@ var calledIntro = false;
 var locationReached = false;
 var enteredHot = false;
 var canHotCold = false;
+var enteredCloseRadius = false;
 
 var currentLocationToReach;
 
-// main //link road // carter road //  Mount mery 
-var invalidLocations = [[72.83441586635318, 19.060396215930364], [72.83317652944778, 19.064512598679855], [72.82183514931508, 19.059149582832017], [72.82217957369458, 19.04654194640622]]
+// main //Otters Club // Link road //  Mount mery 
+var invalidLocations = [[72.83441586635318, 19.060396215930364], [72.822262, 19.060738], [72.834533, 19.065417], [72.824206, 19.052329]]
 
 const audioSource = document.getElementById("AudioSource");
 
@@ -265,17 +266,19 @@ function checkProximity(userCoords, targetLocation) {
 function hasReached(currentLat, currentLng) 
 {
         var currDistance = checkProximity([currentLat, currentLng], currentLocationToReach);
-
-        if(currDistance < 20)
+        
+        if(currDistance < 20 && currentLocationToReach === invalidLocations[0])
         {
             locationReached = false;
-            if(currentLocationToReach === invalidLocations[0])
-            {
-                console.log("You have reached the main target location!");
-                document.getElementById("CorrectLocationModal").style.display = 'block';
-                PlayAudio("../audio/CorrectLocation.wav");
-                return true;
-            }
+            console.log("You have reached the main target location!");
+            document.getElementById("CorrectLocationModal").style.display = 'block';
+            PlayAudio("../audio/CorrectLocation.wav");
+            return true;
+        }
+
+        else if(currDistance < 150)
+        {
+            locationReached = false;
             console.log("You have reached the invalid target location!");
             
             document.getElementById("WrongLocationModal").style.display = 'block';
@@ -339,6 +342,12 @@ function hasReached(currentLat, currentLng)
 function ClosureToStore(currentLat, currentLng) 
 {
     var currDistance = checkProximity([currentLat, currentLng], invalidLocations[0]);
+
+    if(currDistance <= 100 && !enteredCloseRadius)
+    {
+        enteredCloseRadius = true;
+        //play audio
+    }
 
     if(closestDistance >= currDistance)
     {
