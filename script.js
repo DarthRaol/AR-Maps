@@ -346,7 +346,7 @@ function ClosureToStore(currentLat, currentLng)
     if(currDistance <= 100 && !enteredCloseRadius)
     {
         enteredCloseRadius = true;
-        //play audio
+        PlayAudio("../audio/almostthere.wav");
     }
 
     if(closestDistance >= currDistance)
