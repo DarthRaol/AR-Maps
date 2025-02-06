@@ -15,6 +15,34 @@ const hotcold = document.getElementById("HotColdIndicator");
 hotcold.style.display = 'none';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZmFraHIiLCJhIjoiY2pseXc0djE0MHBibzN2b2h4MzVoZjk4aSJ9.ImbyLtfsfSsR_yyBluR8yQ';
+
+function success(pos) {
+    var coordinates = pos.coords;
+    console.log(
+      `Your location is: ${coordinates.latitude}} ${coordinates.longitude}`
+    );
+  }
+  
+  function error(error) {
+    console.warn(`Error: ${error.message}`);
+  }
+  
+  if ("permissions" in navigator) {
+    navigator.permissions.query({
+      name: "geolocation"
+    }).then((result) => {
+      if (result.state === "granted") {
+        console.log("granted");
+      } else if (result.state === "denied") {
+        console.log("denial");
+      } else {
+        navigator.geolocation.getCurrentPosition(success, error, {
+          timeout: 4000,
+          maximumAge: 0
+        });
+      }
+    });
+  }
     
 const map = new mapboxgl.Map({
     container: 'map', 
