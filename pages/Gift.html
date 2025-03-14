@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARKS Adventure Form</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <div class="container">
+    <div class="logo-placeholder">
+      <img src="../img/logo.png" style="size:2rem;" alt="ARKS Logo">
+    </div>
+    
+    <h1>My Cutest <br><span>Girlfriend</span></h1>
+    <div id="div1">
+        <div id="InitClick">
+            <h5 class="subtitle">You reached the location,<br> You are soo awesome and lovely </h5>
+            <button id="startButton">Click to Continue</button>
+        </div>
+        <div id="formClicked" style="display: none;">
+            <form id="arksForm">
+                <div class="form-group">
+                  <label class="required">Gimme the Special Date :3 (in DDMMYY form)</label>
+                  <input type="text" id="firstName" placeholder="Hehe, figure it out or ask me when we meet">
+                </div>
+                <button class="Loginsubmit" id="arksFormSubmit" type="submit">Let's see if you did it correctly</button>
+            </form>
+        </div>
+    </div>
+
+    <div id="div2" style="display: none;">
+        <p class="subtitle">Here are some of my favourite memories of us </p>
+        <div class="carousel">
+            <img id="carouselImage" src="../img/2.jpg" alt="Carousel Image">
+        </div>
+        <button id="showDiv3">Click me for a surprise</button>
+    </div>
+
+    <div id="div3" style="display: none;">
+        <h1>Happy Anniversary <br><span>Girlfriend</span></h1>
+        <h1><br><span>I Love You</span></h1>
+    </div>
+
+  </div>
+
+  <audio id="introAudio" src="../audio/found.wav"></audio>
+  <audio id="loopAudio" src="../audio/Lovers.wav" preload="auto" loop></audio> <!-- Looping audio -->
+  <script>
+    document.getElementById("startButton").addEventListener("click", function() {
+        const audio = document.getElementById("introAudio");
+        document.getElementById("InitClick").style.display = "none"; // Hide initial div
+        audio.play();
+
+        // When audio ends, show the form
+        audio.onended = function() {
+            document.getElementById("formClicked").style.display = "block";
+        };
+    });
+
+    document.getElementById("arksForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const firstName = document.getElementById("firstName").value.trim();
+
+        // Ensure the input is a non-empty string
+        if (firstName === "150324") {
+            document.getElementById("div1").style.display = "none";
+            loopAudio.play(); // Start looping audio
+
+            document.getElementById("div2").style.display = "block";
+        }
+        else {
+            alert("Oops! incorrect date");
+        }
+        // Show the second div after form submission
+        //document.getElementById("div2").style.display = "block";
+    });
+
+    document.getElementById("showDiv3").addEventListener("click", function() {
+        document.getElementById("div3").style.display = "block"; // Show div3
+        document.getElementById("div2").style.display = "none"; // Show div3
+        setTimeout(function() {
+            window.location.href = "http://wildflower.resn.co.nz/?Rahul+Kuntal:18fc"; // Redirect after 7 seconds
+        }, 7000);
+    });
+
+    const images = [
+        "../img/2.jpg", "../img/3.jpg", "../img/4.jpg",
+        "../img/6.jpg", "../img/7.jpg", "../img/8.jpg",
+        "../img/9.jpg", "../img/10.jpg", "../img/11.jpg",
+        "../img/12.jpg",
+    ];
+
+    let index = 0;
+    function changeImage() {
+        index = (index + 1) % images.length;
+        document.getElementById("carouselImage").src = images[index];
+    }
+
+    setInterval(changeImage, 4000); // Change image every 4 seconds
+  </script>
+
+</body>
+</html>

@@ -255,14 +255,9 @@ function hasReached(currentLat, currentLng)
         else if(currDistance < 150)
         {
             locationReached = false;
-            console.log("You have reached the invalid target location!");
-            
-            document.getElementById("WrongLocationModal").style.display = 'block';
-            //PlayAudio("../audio/WrongLocation.wav");
-
-            invalidLocations = removeItemOnce(invalidLocations, location);
-            //invalidLocations[invalidLocations.indexOf(location)] = null;
-            console.log(invalidLocations.length + " lenght after removal");
+            console.log("You have reached the main target location!");
+            document.getElementById("CorrectLocationModal").style.display = 'block';
+            //PlayAudio("../audio/CorrectLocation.wav");
             return true;
         }
         else 
