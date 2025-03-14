@@ -8,7 +8,7 @@ var enteredCloseRadius = false;
 var currentLocationToReach;
 
 // main //Otters Club // Link road //  Mount mery 
-var invalidLocations = [[72.83441586635318, 19.060396215930364], [72.822262, 19.060738], [72.834533, 19.065417], [72.824206, 19.052329]]
+var invalidLocations = [[72.9080753, 19.0864769]]
 
 const audioSource = document.getElementById("AudioSource");
 
@@ -48,8 +48,9 @@ function success(pos) {
 const map = new mapboxgl.Map({
     container: 'map', 
     style: 'mapbox://styles/mapbox/light-v11',
-    center: [72.83020389574983, 19.060727925746235],
-    zoom: 12,
+    //19.160340, 72.946439
+    center: [72.946439, 19.160340],
+    zoom: 11,
     minZoom: 10
 });
 
@@ -69,7 +70,7 @@ mapElement.addEventListener('click', () => {
 
     if(!calledIntro)
     {
-        PlayAudio("../audio/intro.wav");
+        PlayAudio("../audio/Intro.wav"); // add personal intro
         calledIntro = true;
     }
 });
@@ -89,7 +90,7 @@ for(let i = 0; i < 4; i++)
 {
     locationMarker = document.createElement('div');
     locationMarker.className = 'marker';
-    locationMarker.style.backgroundImage = `url('../img/logo.png')`;
+    locationMarker.style.backgroundImage = `url('../img/Loc.png')`;
     locationMarker.style.width = `60px`;
     locationMarker.style.height = `60px`;
     locationMarker.style.backgroundSize = '100%';
@@ -111,32 +112,7 @@ locationDiv[0].addEventListener('click', () => {
     canHotCold = true;
 });
 
-const linkingRoadMarker = new mapboxgl.Marker(locationDiv[1])
-.setLngLat(invalidLocations[1]) // Marker in linking road
-.addTo(map);
 
-locationDiv[1].addEventListener('click', () => {
-    DisableMarkers(1);
-    directions.setDestination(invalidLocations[1]);
-});
-
-const mountMaryMarker = new mapboxgl.Marker(locationDiv[2])
-.setLngLat(invalidLocations[2]) // Marker in Mount Mary
-.addTo(map);
-
-locationDiv[2].addEventListener('click', () => {
-    DisableMarkers(2);
-    directions.setDestination(invalidLocations[2]);
-});
-
-const carterRoadMarker = new mapboxgl.Marker(locationDiv[3])
-.setLngLat(invalidLocations[3]) // Marker in carter road
-.addTo(map);
-
-locationDiv[3].addEventListener('click', () => {
-    DisableMarkers(3);
-    directions.setDestination(invalidLocations[3]);
-});
 
 function removeDefaultMarkers() {
     console.log("called on clock");
@@ -272,7 +248,7 @@ function hasReached(currentLat, currentLng)
             locationReached = false;
             console.log("You have reached the main target location!");
             document.getElementById("CorrectLocationModal").style.display = 'block';
-            PlayAudio("../audio/CorrectLocation.wav");
+            //PlayAudio("../audio/CorrectLocation.wav");
             return true;
         }
 
@@ -282,7 +258,7 @@ function hasReached(currentLat, currentLng)
             console.log("You have reached the invalid target location!");
             
             document.getElementById("WrongLocationModal").style.display = 'block';
-            PlayAudio("../audio/WrongLocation.wav");
+            //PlayAudio("../audio/WrongLocation.wav");
 
             invalidLocations = removeItemOnce(invalidLocations, location);
             //invalidLocations[invalidLocations.indexOf(location)] = null;
@@ -346,7 +322,7 @@ function ClosureToStore(currentLat, currentLng)
     if(currDistance <= 100 && !enteredCloseRadius)
     {
         enteredCloseRadius = true;
-        PlayAudio("../audio/almostthere.wav");
+        //PlayAudio("../audio/almostthere.wav");
     }
 
     if(closestDistance >= currDistance)
@@ -360,7 +336,7 @@ function ClosureToStore(currentLat, currentLng)
         setTimeout(() => {canHotCold = true;
             hotcold.style.display = 'none';
         }, 15000);
-        PlayAudio("../audio/hot.wav");
+        //PlayAudio("../audio/hot.wav");
     }
     else if(closestDistance <= currDistance && currDistance <= 80 && enteredHot)
     {
@@ -372,7 +348,7 @@ function ClosureToStore(currentLat, currentLng)
         setTimeout(() => {canHotCold = true;
         hotcold.style.display = 'none';
         }, 15000);
-        PlayAudio("../audio/cold.wav");
+        //PlayAudio("../audio/cold.wav");
     }
     else
     {
@@ -423,7 +399,7 @@ function DisableMarkers(index)
         {
             locationDiv[i].style.display = 'none';
         }
-        locationDiv[index].style.backgroundImage = `url('../img/logo-greyed.png')`;
+        //locationDiv[index].style.backgroundImage = `url('../img/logo-greyed.png')`;
         locationDiv[index].onclick = null;
     }
     locationReached = true;

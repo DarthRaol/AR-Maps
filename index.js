@@ -8,33 +8,14 @@ document.getElementById("arksForm").addEventListener('submit', function(event) {
     event.preventDefault(); // Prevent default form submission
     // Get form inputs
     const firstName = document.getElementById("firstName").value.trim();
-    const lastName = document.getElementById("lastName").value.trim();
-    const email = document.getElementById("email").value.trim();
-    
+
     // Validation checks
-    if (!firstName) {
-        ShowModal("No <span>First Name</span>","Please enter your first name<br> to continue")
+    if (firstName.toLowerCase() !== "kuntal") {
+        ShowModal("Not my <span>Cutie's </span> name","Please enter your first name<br> to continue")
         return;
     }
-
-    if (!lastName) {
-        ShowModal("No <span>Last Name</span>","Please enter your last name<br> to continue")
-        return;
-    }
-
-    if (!email) {
-        ShowModal("No <span>Email</span>","Please enter your email address<br> to continue")
-        
-        return;
-    }
-
-    // Basic email format validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        ShowModal("Invalid <span>Email</span>","Please enter a valid email address<br> to continue");
-        return;
-    }
-        window.location.href = "LocationTnC.html"; // Replace with your desired page
+    else
+        window.location.href = "./pages/Map.html"; // Replace with your desired page
     
 });
 
