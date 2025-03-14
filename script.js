@@ -70,7 +70,7 @@ mapElement.addEventListener('click', () => {
 
     if(!calledIntro)
     {
-        PlayAudio("../audio/Intro.wav"); // add personal intro
+        PlayAudio("/audio/Intro.wav"); // add personal intro
         calledIntro = true;
     }
 });
