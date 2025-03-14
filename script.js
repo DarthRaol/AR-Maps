@@ -419,7 +419,7 @@ document.getElementsByClassName('retryBtn')[0].addEventListener('click', () => {
 });
 
 document.getElementsByClassName('ar-start')[0].addEventListener('click', () => {
-    window.location.href = '/pages/Gift.html';
+    window.location.href = 'Gift.html';
 });
 
 function generate4DigitCode(input) {
